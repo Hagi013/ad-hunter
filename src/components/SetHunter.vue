@@ -1,9 +1,11 @@
 <template lang='pug'>
 
-  div.hello
-    h1 {{ msg }}
-    h2 Essential Links
-    button.btn.btn-primary(type='button' v-on:click='start') aaa
+  div.setHunter
+    .container
+      .row
+        h1 Target Setting Page
+        .col
+          router-link.btn.btn-link(to='/' tag='a') ←
 
 </template>
 
@@ -11,16 +13,16 @@
   import { ipcRenderer } from 'electron';
 
   export default {
-    name: 'hello',
+    name: 'setHunter',
     data() {
       return {
-        msg: 'Welcome to Your Vue.js App',
       };
     },
     mounted() {},
     methods: {
       start() {
         window.localStorage.setItem('now', new Date());
+        localStorage.setItem('OK', `Just Now!!${new Date()}`);
         const res = ipcRenderer.sendSync('crawlExec', 'From Hello');
         console.log('res', res);
       },
