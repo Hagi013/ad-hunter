@@ -12,8 +12,8 @@ function resolve (dir) {
 module.exports = {
   entry: {
     app: './src/main.js',
-    'bootstrap-loader': 'bootstrap-loader',
-    'tether': 'tether',
+    // 'bootstrap-loader': 'bootstrap-loader',
+    // 'tether': 'tether',
   },
   output: {
     path: config.build.assetsRoot,
@@ -84,7 +84,7 @@ module.exports = {
       jQuery: 'jquery',
       'window.jQuery': 'jquery',
       'window.Tether': "tether",
-      "Tether": "tether",
+      // "Tether": "tether",
     }),
   ]
 }
