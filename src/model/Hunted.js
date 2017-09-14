@@ -1,16 +1,39 @@
 import BaseModel from './BaseModel';
-import Flow from './Flow';
+import { ActionObject } from './Action';
+import { SettingsObject } from './Settings';
+import { notEmptyCheck, arrayCheck, notEmptyObjCheck } from '../lib/utils/CheckUtils';
 
-export default class Hunted extends BaseModel{
+
+export default class Hunted extends BaseModel {
   constructor(data) {
     super();
-    if (super.emptyCheck(data)) return;
-
-    this.id = super.notEmptyCheck(data.id) ? data.id : '';
-    this.url = super.notEmptyCheck(data.url) ? data.url : '';
-    this.flow = super.arrayCheck(data.flow) ? data.flow.map(f => new Flow(f)) : '';
-    this.updatedAt = super.notEmptyCheck(data.updatedAt) ? data.updatedAt : '';
-    this.settings = super.notEmptyCheck(data.settings) ? new Settings(data.settings) : '';
-    this.description = super.notEmptyCheck(data.description) ? data.description : '';
+    this.id = notEmptyCheck(data.id) ? data.id : '';
+    this.url = notEmptyCheck(data.url) ? data.url : '';
+    this.flow = arrayCheck(data.flow) ? data.flow.map(f => ActionObject.apply(f)) : '';
+    this.updatedAt = notEmptyCheck(data.updatedAt) ? data.updatedAt : '';
+    this.settings = notEmptyCheck(data.settings) ? SettingsObject.apply(data.settings) : '';
+    this.description = notEmptyCheck(data.description) ? data.description : '';
   }
+}
+
+export class HuntedObject {
+
+  static apply(obj) {
+    if (notEmptyObjCheck(obj)) {
+      return new Hunted(obj);
+    }
+    return new Hunted(this.createItem());
+  }
+
+  static createItem() {
+    return {
+      id: '',
+      url: '',
+      flow: '',
+      updatedAt: '',
+      settings: '',
+      description: '',
+    };
+  }
+
 }
