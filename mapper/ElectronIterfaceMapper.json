@@ -1,0 +1,12 @@
+{
+  "CLICK": {
+    "FROMVUE": "searchItem",
+    "FROMRENDERER": "searchItemClicked",
+    "TOVUE": "searchItemReturn"
+  },
+  "SCROLL": {
+    "FROMVUE": "scrollScreen",
+    "FROMRENDERER": "screenScrolled",
+    "TOVUE": "scrollScreenReturn"
+  }
+}
