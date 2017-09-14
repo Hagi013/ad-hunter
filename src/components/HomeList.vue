@@ -20,36 +20,44 @@
               td
 
         .col.text-right
-          router-link.btn.btn-primary(type='button' to='/set-hunter' tags="button") Create New
+          button.btn.btn-primary(type='button' v-on:click='goCreatePage') Create New
 
 </template>
 
 <script>
+  /* eslint-disable */
   import { ipcRenderer } from 'electron';
+  import router from '../router';
 
   export default {
     name: 'homeList',
+
     data() {
       return {
-        msg: 'Welcome to Your Vue.js App',
       };
     },
-    mounted() {},
+
+    mounted() {
+
+    },
+
     methods: {
       start() {
         window.localStorage.setItem('now', new Date());
-        localStorage.setItem('OK', `Just Now!!${new Date()}`);
-        // const res = ipcRenderer.sendSync('crawlExec', 'From Hello');
         ipcRenderer.send('crawlExec', 'From Hello');
-        // console.log('res', res);
-
         ipcRenderer.on('fromParent', (event, target) => {
           console.log(target, event);
         });
       },
+      goCreatePage() {
+        router.push('/set-hunter');
+      }
     },
+
     computed: {},
+
     filters: {},
+
     watch: {},
   };
 </script>
