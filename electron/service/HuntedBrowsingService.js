@@ -1,45 +1,64 @@
 /* eslint-disable */
 const config = {
-  CLICK: 'executeClick',
+  CLICK: 'prepareClick',
   SCROLL: 'executeScroll',
 };
 
-const HuntedSettingService = class {
+const actionConfig = {
+  CLICK: 'item',
+  SCROLL: 'scroll',
+  OPERATION: 'operation',
 
-  static actionToStr(EVENT) {
-    return this[config[EVENT]].toString().replace(/\w*\(\)\s?\{/, '').replace(/}$/,'').replace(/CONFIG\.\w*\.FROMRENDERER/, `'${CONFIG[EVENT].FROMRENDERER}'`).trim();
-  }
-
-  static executeClick() {
-    // const ipcRenderer = require('electron').ipcRenderer;
-
-    window.addEventListener('click', (event) => {
-      const res = {
-        eventX: event.x,
-        eventY: event.y,
-        eventId: event.target.id,
-        eventClass: event.target.className,
-        eventDOM: event.target,
-        eventHTML: event.target.innerHTML
-      };
-      // ipcRenderer.send(CONFIG.CLICK.FROMRENDERER, res);
-    });
-  }
-
-  static executeScroll() {
-    const ipcRenderer = require('electron').ipcRenderer;
-    window.addEventListener('click', (event) => {
-      const res = {
-        pageX: event.pageX,
-        pageY: event.pageY,
-        eventId: event.target.id,
-        eventClass: event.target.className,
-        eventDOM: event.target,
-        eventHTML: event.target.innerHTML
-      };
-      ipcRenderer.send(CONFIG.CLICK.FROMRENDERER, res);
-    });
-  }
 }
 
-module.exports = HuntedSettingService;
+// const CONFIG = require('../../mapper/ElectronIterfaceMapper.json').BROWSING;
+
+const HuntedBrowsingService = class {
+
+  static actionToStr(action) {
+    return this[config[action.type]](action[actionConfig[action.type]]).toString().replace(/\(\w*\)\s?\=\>\s?\{/, '').replace(/point/, JSON.stringify(action[actionConfig[action.type]])).replace(/}$/,'').trim();
+  }
+
+  static prepareClick(point) {
+    return () => {
+      const data = point;
+      const pageXOffset = data.pageXOffset;
+      const pageYOffset = data.pageYOffset;
+      window.scrollTo(pageXOffset, pageYOffset);
+      const res = JSON.stringify({availX: window.screenX, availY: window.screenY});
+      `${res}`;
+    }
+  }
+
+  // static prepareClickFromId(id) {
+  //   const id = document.getElementById(id);
+  //   id.scrollIntoView(true);
+  //   id.click();
+  // }
+  //
+  // static prepareClickFromClass(className) {
+  //   const classElem = document.getElementsByClassName(className)[0];
+  //   classElem.scrollIntoView(true);
+  //   classElem.click();
+  // }
+  //
+  // static prepareClickFromPoint(windowInfo) {
+  //   document.elementFromPoint(windowInfo.x, windowInfo.y);
+  //   window.getElement
+  // }
+
+  static executeScroll(point) {
+    // const ipcRenderer = require('electron').ipcRenderer;
+
+    // ipcRenderer.send(CONFIG.CLICK.FROMRENDERER, res);
+  }
+
+  static inspectContent(content) {
+    if (content.pageX !== '' && content.pageY !== '') {
+
+    }
+  }
+
+}
+
+module.exports = HuntedBrowsingService;

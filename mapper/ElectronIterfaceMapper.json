@@ -1,12 +1,24 @@
 {
-  "CLICK": {
-    "FROMVUE": "searchItem",
-    "FROMRENDERER": "searchItemClicked",
-    "TOVUE": "searchItemReturn"
+  "SETTING": {
+    "CLICK": {
+      "FROMVUE": "searchItem",
+      "FROMRENDERER": "searchItemClicked",
+      "TOVUE": "searchItemReturn"
+    },
+    "SCROLL": {
+      "FROMVUE": "scrollScreen",
+      "FROMRENDERER": "screenScrolled",
+      "TOVUE": "scrollScreenReturn"
+    }
   },
-  "SCROLL": {
-    "FROMVUE": "scrollScreen",
-    "FROMRENDERER": "screenScrolled",
-    "TOVUE": "scrollScreenReturn"
+  "BROWSING": {
+    "SIMULATE": {
+      "FROMVUE": "simulateAction",
+      "FROMRENDERER": "simulatedAction",
+      "TOVUE": "simulateActionReturn"
+    },
+    "CLICK": {
+      "FROMRENDERER": "searchItemClicked"
+    }
   }
 }

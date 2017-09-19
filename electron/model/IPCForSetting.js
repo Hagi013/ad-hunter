@@ -1,9 +1,9 @@
 /* eslint-disable */
 const { BrowserWindow, ipcMain } = require('electron');
-const CONFIG = require('../../mapper/ElectronIterfaceMapper.json');
+const CONFIG = require('../../mapper/ElectronIterfaceMapper.json').SETTING;
 const HuntedSettingService = require('../service/HuntedSettingService');
 
-class IPCMain {
+class IPCForSetting {
 
   constructor() {
     this.win = '';
@@ -22,7 +22,6 @@ class IPCMain {
       this.event = event;
       this.createWindow(url);
       this.readyRecieveEvent(CONFIG[KEY]['FROMRENDERER'], CONFIG[KEY]['TOVUE']);
-      console.log(KEY);
       this.executeJS(HuntedSettingService.actionToStr(KEY));
       // this.closeWindow();
     });
@@ -30,6 +29,8 @@ class IPCMain {
 
   createWindow(url) {
     this.win = new BrowserWindow({
+      nodeIntegration: 'iframe',
+      webPreferences: {webSecurity: false},
       width: 1500,
       height: 900 });
 
@@ -57,10 +58,10 @@ class IPCMain {
   }
 }
 
-const IPCMainObject = class {
+const IPCForSettingObject = class {
   static apply() {
-    return new IPCMain();
+    return new IPCForSetting();
   }
 };
 
-module.exports = IPCMainObject;
+module.exports = IPCForSettingObject;

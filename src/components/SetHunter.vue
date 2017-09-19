@@ -45,6 +45,7 @@
           th Operation
           th CTR
           th Log
+          th Simulate
           th Remove
         tbody
           tr(v-for='(item, index) in hunted.flow')
@@ -58,43 +59,55 @@
 
             td(v-bind:disabled='item.type !== "CLICK"')
               tr
-                td Event X
-                td {{ item.item.eventX }}
+                td Page X Offset
+                td: input(v-model='item.item.pageXOffset')
               tr
-                td Event Y
-                td {{ item.item.eventY }}
+                td Page Y Offset
+                td: input(v-model='item.item.pageYOffset')
+              tr
+                td Page X
+                td: input(v-model='item.item.x')
+              tr
+                td Page Y
+                td: input(v-model='item.item.y')
+              tr
+                td Page X
+                td: input(v-model='item.item.pageX')
+              tr
+                td Page Y
+                td: input(v-model='item.item.pageY')
               tr
                 td Event Id
-                td {{ item.item.eventId }}
+                td: input(v-model='item.item.eventId')
               tr
                 td Event Class
-                td {{ item.item.eventClass }}
-              tr
-                td Event DOM
-                td {{ item.item.eventDOM }}
-              tr
-                td Event HTML
-                td {{ item.item.eventHTML }}
+                td: input(v-model='item.item.eventClass')
+              //tr
+              //  td Event DOM
+              //  td {{ item.item.eventDOM }}
+              //tr
+              //  td Event HTML
+              //  td {{ item.item.eventHTML }}
 
             td(v-bind:disabled='item.type !== "SCROLL"')
               tr
                 td Page X
-                td {{ item.scroll.pageX }}
+                td: input(v-model='item.scroll.pageX')
               tr
                 td Page Y
-                td {{ item.scroll.pageY }}
+                td: input(v-model='item.scroll.pageY')
               tr
                 td Event Id
-                td {{ item.scroll.eventId }}
+                td: input(v-model='item.scroll.eventId')
               tr
                 td Event Class
-                td {{ item.scroll.eventClass }}
-              tr
-                td Event DOM
-                td {{ item.scroll.eventDOM }}
-              tr
-                td Event HTML
-                td {{ item.scroll.eventHTML }}
+                td: input(v-model='item.scroll.eventClass')
+              //tr
+              //  td Event DOM
+              //  td {{ item.scroll.eventDOM }}
+              //tr
+              //  td Event HTML
+              //  td {{ item.scroll.eventHTML }}
 
             td
               tr.pb-2
@@ -115,6 +128,9 @@
             td {{ item.log }}
 
             td
+              button.btn.btn-danger(v-on:click='simulateItem(index)') simulate
+
+            td
               button.btn.btn-danger(v-on:click='removeFlowItem(index)') remove
 
       .form-group.row
@@ -133,12 +149,12 @@
   import { emptyCheck } from '../lib/utils/CheckUtils';
   import { HuntedObject }from '../model/Hunted';
   import { ActionObject } from '../model/Action';
-  import { ItemObject } from '../model/Item';
-  import { ScrollObject } from '../model/Scroll';
+  import { ElementObject} from '../model/Element';
   import { OperationObject } from '../model/Operation';
   import { CLICK, SCROLL, OPERATION } from '../model/type/HuntedActionType';
   import { BACK, FORWARD, WAIT, CUSTOM } from '../model/type/HuntedOperationType';
   import ElectronClient from '../model/electron/ElectronClient';
+  import Tuple from '../lib/Tuple';
 
   export default {
     name: 'setHunter',
@@ -176,6 +192,14 @@
         this.hunted.flow.push(ActionObject.apply());
       },
 
+      simulateItem(idx) {
+        console.log(this.hunted.flow[idx], idx, this.hunted.flow);
+        if (emptyCheck(this.hunted.url)) return;
+        const SimulateTupleType = new Tuple(String, ActionObject.apply().constructor);
+        const simulateTuple = new SimulateTupleType(this.hunted.url, ActionObject.apply(this.hunted.flow[idx]));
+        ElectronClient.simulateAction(simulateTuple);
+      },
+
       removeFlowItem(idx) {
         this.hunted.flow.splice(idx, 1);
       },
@@ -187,14 +211,14 @@
       searchItem(idx) {
         if (emptyCheck(this.hunted.url)) return;
         ElectronClient.searchItem(this.hunted.url, (event, target) => {
-          this.hunted.flow[idx].item = ItemObject.apply(target);
+          this.hunted.flow[idx].item = ElementObject.apply(target);
         });
       },
 
       scrollScreen(idx) {
         if (emptyCheck(this.hunted.url)) return;
         ElectronClient.scrollScreen(this.hunted.url, (event, target) => {
-          this.hunted.flow[idx].scroll = ScrollObject.apply(target);
+          this.hunted.flow[idx].scroll = ElementObject.apply(target);
         });
       },
 

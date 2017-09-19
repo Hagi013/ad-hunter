@@ -1,17 +1,16 @@
 import BaseModel from './BaseModel';
-import { TypeObject } from './Type';
-import { ItemObject } from './Item';
-import { ScrollObject } from './Scroll';
+import { ElementObject } from './Element';
 import { notEmptyCheck, notEmptyObjCheck } from '../lib/utils/CheckUtils';
+import { actionTypeCheck } from './type/HuntedActionType';
 
 export default class Action extends BaseModel {
   constructor(data) {
     super();
 
     this.id = notEmptyCheck(data.id) ? data.id : '';
-    this.type = notEmptyCheck(data.type) ? TypeObject.apply(data.type) : '';
-    this.item = notEmptyCheck(data.item) ? ItemObject.apply(data.item) : '';
-    this.scroll = notEmptyCheck(data.scroll) ? ScrollObject.apply(data.scroll) : '';
+    this.type = notEmptyCheck(data.type) && actionTypeCheck(data.type) ? data.type : '';
+    this.item = notEmptyCheck(data.item) ? ElementObject.apply(data.item) : '';
+    this.scroll = notEmptyCheck(data.scroll) ? ElementObject.apply(data.scroll) : '';
     this.operation = notEmptyCheck(data.operation) ? data.operation : '';
     this.ctr = notEmptyCheck(data.ctr) ? data.ctr : '';
   }

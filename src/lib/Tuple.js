@@ -2,11 +2,11 @@
 
 const Tuple = function () {
 
-  const typeInfo = Array.slice(arguments, 0);
+  const typeInfo = Array.prototype.slice.call(arguments, 0);
 
   const _T = function () {
 
-    const values = Array.slice(arguments, 0);
+    const values = Array.prototype.slice.call(arguments, 0);
 
     if (values.some(val => val === null || val === undefined)) {
       throw new ReferenceError('Tuple may not have any null values');
@@ -64,3 +64,5 @@ const typeIsEqual = typeDef => {
     return true;
   }
 };
+
+export default Tuple;
