@@ -1,9 +1,8 @@
 /* eslint-disable */
 const { BrowserWindow, ipcMain } = require('electron');
 const ElectronObject = require('./model/Electron');
-const IPCMainObject = require('./model/IPCMain');
-// const HuntedSettingService = require('./service/HuntedSettingService');
-
+const IPCForSettingObject = require('./model/IPCForSetting');
+const IPCForBrowsingObject = require('./model/IPCForBrowsing');
 
 const electron = ElectronObject.apply();
 
@@ -22,8 +21,11 @@ if (process.env.NODE_ENV !== 'production') {
 
 electron.start();
 
-const ipc = IPCMainObject.apply();
-ipc.start();
+const ipcForSetting = IPCForSettingObject.apply();
+ipcForSetting.start();
+
+const ipcForBrowsing = IPCForBrowsingObject.apply();
+ipcForBrowsing.start();
 
 ipcMain.on('crawlExec', (event, target) => {
   const tmpWindow = new BrowserWindow({ width: 1000, height: 700 });

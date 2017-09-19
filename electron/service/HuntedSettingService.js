@@ -3,7 +3,7 @@ const config = {
   CLICK: 'clickEventListener',
   SCROLL: 'scrollEventListener',
 };
-const CONFIG = require('../../mapper/ElectronIterfaceMapper.json');
+const CONFIG = require('../../mapper/ElectronIterfaceMapper.json').SETTING;
 
 const HuntedSettingService = class {
 
@@ -15,12 +15,16 @@ const HuntedSettingService = class {
     const ipcRenderer = require('electron').ipcRenderer;
     window.addEventListener('click', (event) => {
       const res = {
-        eventX: event.x,
-        eventY: event.y,
-        eventId: event.target.id,
-        eventClass: event.target.className,
-        eventDOM: event.target,
-        eventHTML: event.target.innerHTML
+        pageXOffset: window.pageXOffset,
+        pageYOffset: window.pageYOffset,
+        x: event.x,
+        y: event.y,
+        pageX: event.pageX,
+        pageY: event.pageY,
+        eventId: document.elementFromPoint(event.x, event.y).id,
+        eventClass: document.elementFromPoint(event.x, event.y).className,
+        // eventDOM: event.target,
+        // eventHTML: event.target.innerHTML
       };
       ipcRenderer.send(CONFIG.CLICK.FROMRENDERER, res);
     });
@@ -32,10 +36,10 @@ const HuntedSettingService = class {
       const res = {
         pageX: event.pageX,
         pageY: event.pageY,
-        eventId: event.target.id,
-        eventClass: event.target.className,
-        eventDOM: event.target,
-        eventHTML: event.target.innerHTML
+        eventId: document.elementFromPoint(event.x, event.y).id,
+        eventClass: document.elementFromPoint(event.x, event.y).className,
+        // eventDOM: event.target,
+        // eventHTML: event.target.innerHTML
       };
       ipcRenderer.send(CONFIG.CLICK.FROMRENDERER, res);
     });
