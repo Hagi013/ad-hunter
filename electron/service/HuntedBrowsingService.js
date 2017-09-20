@@ -2,13 +2,13 @@
 const config = {
   CLICK: 'prepareClick',
   SCROLL: 'executeScroll',
+  OPERATION: 'executeOperation',
 };
 
 const actionConfig = {
   CLICK: 'item',
   SCROLL: 'scroll',
   OPERATION: 'operation',
-
 }
 
 // const CONFIG = require('../../mapper/ElectronIterfaceMapper.json').BROWSING;
@@ -16,14 +16,14 @@ const actionConfig = {
 const HuntedBrowsingService = class {
 
   static actionToStr(action) {
-    return this[config[action.type]](action[actionConfig[action.type]]).toString().replace(/\(\w*\)\s?\=\>\s?\{/, '').replace(/point/, JSON.stringify(action[actionConfig[action.type]])).replace(/}$/,'').trim();
+    return this[config[action.type]](action[actionConfig[action.type]]).toString().replace(/\(\w*\)\s?\=\>\s?\{/, '').replace(/origin/, JSON.stringify(action[actionConfig[action.type]])).replace(/}$/,'').trim();
   }
 
-  static prepareClick(point) {
+  static prepareClick(origin) {
     return () => {
-      const data = point;
-      const pageXOffset = data.pageXOffset;
-      const pageYOffset = data.pageYOffset;
+      const point = origin;
+      const pageXOffset = point.pageXOffset;
+      const pageYOffset = point.pageYOffset;
       window.scrollTo(pageXOffset, pageYOffset);
       const res = JSON.stringify({availX: window.screenX, availY: window.screenY});
       `${res}`;
@@ -47,15 +47,46 @@ const HuntedBrowsingService = class {
   //   window.getElement
   // }
 
-  static executeScroll(point) {
+  static executeScroll(origin) {
     return () => {
       // const ipcRenderer = require('electron').ipcRenderer;
-      const data = point;
-      const pageX = data.pageX;
-      const pageY = data.pageY;
+      const point = origin;
+      const pageX = point.pageX;
+      const pageY = point.pageY;
       window.scrollTo(pageX, pageY);
 
       // ipcRenderer.send(CONFIG.CLICK.FROMRENDERER, res);
+    }
+  }
+
+  static executeOperation(origin) {
+    return () => {
+      const moment = require('moment');
+
+      const wait = (num) => {
+        const startTime = moment();
+        let now = moment();
+        while(startTime.diff(now) < operation.num*1000) {
+          now = moment();
+        }
+      };
+
+      const operation = origin;
+      const doMapper = {
+        BACK: (num) => { window.history.go(-num); },
+        FORWARD: (num) => { window.history.go(num); },
+        WAIT: (num) => { wait(num); },
+        CUSTOM: (funcStr) => { new Function(funcStr)(); },
+      };
+
+      const paramMapper = {
+        BACK: 'num',
+        FORWARD: 'num',
+        WAIT: 'num',
+        CUSTOM: 'funcStr',
+      };
+
+      doMapper[operation.opType](operation[paramMapper[operation.opType]]);
     }
   }
 
