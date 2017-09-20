@@ -1,4 +1,4 @@
-<template lang='pug'>
+electron/service/HuntedBrowsingService.js<template lang='pug'>
 
   div.setHunter
 
@@ -59,22 +59,22 @@
 
             td(v-bind:disabled='item.type !== "CLICK"')
               tr
-                td Page X Offset
+                td Page Offset X
                 td: input(v-model='item.item.pageXOffset')
               tr
-                td Page Y Offset
+                td Page Offset Y
                 td: input(v-model='item.item.pageYOffset')
               tr
-                td Page X
+                td Page Client X
                 td: input(v-model='item.item.x')
               tr
-                td Page Y
+                td Page Client Y
                 td: input(v-model='item.item.y')
               tr
-                td Page X
+                td Page Overall X
                 td: input(v-model='item.item.pageX')
               tr
-                td Page Y
+                td Page Overall Y
                 td: input(v-model='item.item.pageY')
               tr
                 td Event Id
@@ -128,7 +128,7 @@
             td {{ item.log }}
 
             td
-              button.btn.btn-danger(v-on:click='simulateItem(index)') simulate
+              button.btn.btn-info(v-on:click='simulateItem(index)') simulate
 
             td
               button.btn.btn-danger(v-on:click='removeFlowItem(index)') remove
