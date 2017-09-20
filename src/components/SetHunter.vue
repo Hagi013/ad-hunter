@@ -176,9 +176,7 @@
         action: {
           CLICK: 'searchItem',
           SCROLL: 'scrollScreen',
-          WAIT: '',
-          OPERATION: '',
-        }
+        },
       };
     },
 
@@ -205,6 +203,7 @@
       },
 
       decideAction(idx) {
+        if (this.hunted.flow[idx].type === 'OPERATION') return;
         this[this.action[this.hunted.flow[idx].type]](idx);
       },
 
@@ -223,12 +222,12 @@
       },
 
       decideOperation(idx) {
+        console.log(this.hunted.flow[idx].operation.opType);
         const obj = {
           opType: this.hunted.flow[idx].operation.opType,
-          num: this.hunted.flow[idx].operation.num ? this.hunted.flow[idx].operation.num : undefined,
-          funcStr: this.hunted.flow[idx].operation.funcStr ? this.hunted.flow[idx].operation.funcStr : undefined,
+          num: this.hunted.flow[idx].operation.opType !== 'CUSTOM' && this.hunted.flow[idx].operation.num && this.hunted.flow[idx].operation.num > 0 ? this.hunted.flow[idx].operation.num : undefined,
+          funcStr: this.hunted.flow[idx].operation.opType === 'CUSTOM' && this.hunted.flow[idx].operation.funcStr ? this.hunted.flow[idx].operation.funcStr : undefined,
         };
-
         this.hunted.flow[idx].operation = OperationObject.apply(obj);
       },
 

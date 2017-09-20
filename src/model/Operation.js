@@ -6,7 +6,7 @@ export default class Operation extends BaseModel {
   constructor(data) {
     super();
     this.opType = notEmptyCheck(data.opType) ? data.opType : '';
-    this.num = notEmptyCheck(data.num) ? Number(data.num) : '';
+    this.num = notEmptyCheck(data.num) ? Number(data.num) : 0;
     this.funcStr = notEmptyCheck(data.funcStr) ? data.funcStr : '';
   }
 }
