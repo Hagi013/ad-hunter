@@ -15,7 +15,6 @@ export default class ElectronClient {
   }
 
   static simulateAction(tuple) {
-    // const send = { url: url, action: action };
     ipcRenderer.send(CONFIG.BROWSING.SIMULATE.FROMVUE, tuple);
     // ipcRenderer.on(CONFIG.SCROLL.TOVUE, func);
   }

@@ -48,9 +48,15 @@ const HuntedBrowsingService = class {
   // }
 
   static executeScroll(point) {
-    // const ipcRenderer = require('electron').ipcRenderer;
+    return () => {
+      // const ipcRenderer = require('electron').ipcRenderer;
+      const data = point;
+      const pageX = data.pageX;
+      const pageY = data.pageY;
+      window.scrollTo(pageX, pageY);
 
-    // ipcRenderer.send(CONFIG.CLICK.FROMRENDERER, res);
+      // ipcRenderer.send(CONFIG.CLICK.FROMRENDERER, res);
+    }
   }
 
   static inspectContent(content) {
