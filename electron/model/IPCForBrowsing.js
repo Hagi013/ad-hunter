@@ -7,8 +7,11 @@ const HuntedBrowsingService = require('../service/HuntedBrowsingService');
 const method = {
   SIMULATE: 'activateSimulate',
   EXECUTE: '',
+}
+
+const brwsingMethod = {
   CLICK: 'executeClick',
-  SCROLL: '',
+  SCROLL: 'executeScroll',
   WAIT: '',
   OPERATION: '',
 }
@@ -63,13 +66,13 @@ class IPCForBrowsing {
   }
 
   executeAction(action) {
-    this[method[action.type]](action);
+    this[brwsingMethod[action.type]](action);
   }
 
   executeClick(action) {
 
     // スクロール　+ 要素の画面全体での位置を取得
-    this.executeJS(HuntedBrowsingService.actionToStr(action))
+    return this.executeJS(HuntedBrowsingService.actionToStr(action))
       .then(res => {
         const resObj = JSON.parse(res);
         console.log(resObj);
@@ -82,6 +85,12 @@ class IPCForBrowsing {
         this.executeMouseClick();
       })
     // ipcMain.on(CONFIG.FROMRENDERER)
+  }
+
+
+  executeScroll(action) {
+    // スクロールの実行
+    return this.executeJS(HuntedBrowsingService.actionToStr(action));
   }
 
   executeJS(funcStr) {

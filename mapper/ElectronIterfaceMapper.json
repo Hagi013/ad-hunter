@@ -16,9 +16,6 @@
       "FROMVUE": "simulateAction",
       "FROMRENDERER": "simulatedAction",
       "TOVUE": "simulateActionReturn"
-    },
-    "CLICK": {
-      "FROMRENDERER": "searchItemClicked"
     }
   }
 }
