@@ -91,10 +91,10 @@ electron/service/HuntedBrowsingService.js<template lang='pug'>
 
             td(v-bind:disabled='item.type !== "SCROLL"')
               tr
-                td Page X
+                td Page Overall X
                 td: input(v-model='item.scroll.pageX')
               tr
-                td Page Y
+                td Page Overall Y
                 td: input(v-model='item.scroll.pageY')
               tr
                 td Event Id

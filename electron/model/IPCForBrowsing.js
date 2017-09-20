@@ -9,11 +9,10 @@ const method = {
   EXECUTE: '',
 }
 
-const brwsingMethod = {
+const browsingMethod = {
   CLICK: 'executeClick',
-  SCROLL: 'executeScroll',
-  WAIT: '',
-  OPERATION: '',
+  SCROLL: 'executeScreenOperation',
+  OPERATION: 'executeScreenOperation',
 }
 
 class IPCForBrowsing {
@@ -66,7 +65,7 @@ class IPCForBrowsing {
   }
 
   executeAction(action) {
-    this[brwsingMethod[action.type]](action);
+    this[browsingMethod[action.type]](action);
   }
 
   executeClick(action) {
@@ -77,7 +76,7 @@ class IPCForBrowsing {
         const resObj = JSON.parse(res);
         console.log(resObj);
         return resObj;
-    })
+      })
       .then(browserPosition => {  // マウスをクリック位置まで動かす
         this.moveMouseSmooth(this.calcMousePosition(action.item, browserPosition));
       })
@@ -87,9 +86,8 @@ class IPCForBrowsing {
     // ipcMain.on(CONFIG.FROMRENDERER)
   }
 
-
-  executeScroll(action) {
-    // スクロールの実行
+  executeScreenOperation(action) {
+    // スクロールの実行 or オペレーションの実行
     return this.executeJS(HuntedBrowsingService.actionToStr(action));
   }
 
