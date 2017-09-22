@@ -20,12 +20,18 @@ const HuntedBrowsingService = class {
   }
 
   static prepareClick(origin) {
+    let res;
+
+    // 下記の関数はRendererプロセス内のグローバルな関数として定義されるため、同じFlowかつ同じページ内で複数回実行されると「has already been declared」エラーが発生するので、
+    // 関数自体を無名関数で実行するようにした。
     return () => {
-      const point = origin;
-      const pageXOffset = point.pageXOffset;
-      const pageYOffset = point.pageYOffset;
-      window.scrollTo(pageXOffset, pageYOffset);
-      const res = JSON.stringify({availX: window.screenX, availY: window.screenY});
+      (() => {
+        const point = origin;
+        const pageXOffset = point.pageXOffset;
+        const pageYOffset = point.pageYOffset;
+        window.scrollTo(pageXOffset, pageYOffset);
+        res = JSON.stringify({availX: window.screenX, availY: window.screenY});
+      })();
       `${res}`;
     }
   }
@@ -48,54 +54,61 @@ const HuntedBrowsingService = class {
   // }
 
   static executeScroll(origin) {
-    return () => {
-      // const ipcRenderer = require('electron').ipcRenderer;
-      const point = origin;
-      const pageX = point.pageX;
-      const pageY = point.pageY;
-      window.scrollTo(pageX, pageY);
 
-      // ipcRenderer.send(CONFIG.CLICK.FROMRENDERER, res);
+    // 下記の関数はRendererプロセス内のグローバルな関数として定義されるため、同じFlowかつ同じページ内で複数回実行されると「has already been declared」エラーが発生するので、
+    // 関数自体を無名関数で実行するようにした。
+    return () => {
+      (() => {
+
+        // const ipcRenderer = require('electron').ipcRenderer;
+        const point = origin;
+        const pageX = point.pageX;
+        const pageY = point.pageY;
+        window.scrollTo(pageX, pageY);
+        // ipcRenderer.send(CONFIG.CLICK.FROMRENDERER, res);
+      })();
     }
   }
 
   static executeOperation(origin) {
+
+    // 下記の関数はRendererプロセス内のグローバルな関数として定義されるため、同じFlowかつ同じページ内で複数回実行されると「has already been declared」エラーが発生するので、
+    // 関数自体を無名関数で実行するようにした。
     return () => {
-      const moment = require('moment');
+      (() => {
 
-      const wait = (num) => {
-        const startTime = moment();
-        let now = moment();
-        while(startTime.diff(now) < operation.num*1000) {
-          now = moment();
-        }
-      };
+        // operationModule = {};
 
-      const operation = origin;
-      const doMapper = {
-        BACK: (num) => { window.history.go(-num); },
-        FORWARD: (num) => { window.history.go(num); },
-        WAIT: (num) => { wait(num); },
-        CUSTOM: (funcStr) => { new Function(funcStr)(); },
-      };
+        const moment = require('moment');
 
-      const paramMapper = {
-        BACK: 'num',
-        FORWARD: 'num',
-        WAIT: 'num',
-        CUSTOM: 'funcStr',
-      };
+        const wait = (num) => {
+          const startTime = moment();
+          let now = moment();
+          while(now.diff(startTime) < num*1000) {
+            console.log(startTime.diff(now), now.diff(startTime));
+            now = moment();
+          }
+        };
 
-      doMapper[operation.opType](operation[paramMapper[operation.opType]]);
+        const operation = origin;
+        const doMapper = {
+          BACK: (num) => { window.history.go(-num); },
+          FORWARD: (num) => { window.history.go(num); },
+          WAIT: (num) => { wait(num); },
+          CUSTOM: (funcStr) => { new Function(funcStr)(); },
+        };
+
+        const paramMapper = {
+          BACK: 'num',
+          FORWARD: 'num',
+          WAIT: 'num',
+          CUSTOM: 'funcStr',
+        };
+
+        doMapper[operation.opType](operation[paramMapper[operation.opType]]);
+      })();
     }
   }
-
-  static inspectContent(content) {
-    if (content.pageX !== '' && content.pageY !== '') {
-
-    }
-  }
-
 }
 
 module.exports = HuntedBrowsingService;

@@ -6,7 +6,7 @@ const HuntedBrowsingService = require('../service/HuntedBrowsingService');
 
 const method = {
   SIMULATE: 'activateSimulate',
-  EXECUTE: '',
+  EXECUTE: 'executeBrowsing',
 }
 
 const browsingMethod = {
@@ -20,6 +20,8 @@ class IPCForBrowsing {
   constructor() {
     this.win = '';
     this.event = '';
+    this.currentFlow = [];
+
   }
 
   start() {
@@ -37,6 +39,27 @@ class IPCForBrowsing {
       // this.executeJS(HuntedSettingService.actionToStr(KEY));
       // this.closeWindow();
     });
+  }
+
+  /**
+   @param tuple {Tuple(url: String, flow: [Action])}
+   */
+  executeBrowsing(tuple) {
+    const url = tuple._1;
+    const flow = tuple._2;
+
+    const currentProcessCheck = this.currentFlow.every(t => !(url === t._1 && JSON.stringify(flow) === JSON.stringify(t._2)));
+    if (!currentProcessCheck) return;
+
+    this.currentFlow.push(tuple);
+
+    this.createWindow(url);
+    flow.reduce((prev, action, index, array) => {
+      return prev
+        .then(() => { console.log('2', new Date()); return this.executeAction(action) });
+    }, Promise.resolve()).then(() =>{
+      this.currentFlow = this.currentFlow.filter(t => !(tuple._1 === t._1 && JSON.stringify(tuple._2) === JSON.stringify(t._2)));
+    }).catch(() => { this.currentFlow = this.currentFlow.filter(t => !(tuple._1 === t._1 && JSON.stringify(tuple._2) === JSON.stringify(t._2))) });
   }
 
   /**
@@ -65,7 +88,7 @@ class IPCForBrowsing {
   }
 
   executeAction(action) {
-    this[browsingMethod[action.type]](action);
+    return this[browsingMethod[action.type]](action);
   }
 
   executeClick(action) {
@@ -78,10 +101,18 @@ class IPCForBrowsing {
         return resObj;
       })
       .then(browserPosition => {  // マウスをクリック位置まで動かす
-        this.moveMouseSmooth(this.calcMousePosition(action.item, browserPosition));
+        return new Promise(resolve => {
+          this.moveMouseSmooth(this.calcMousePosition(action.item, browserPosition));
+          console.log('スクロール完了', new Date());
+          resolve();
+        })
       })
       .then(() => { // クリックする
-        this.executeMouseClick();
+        return new Promise(resolve => {
+          this.executeMouseClick();
+          console.log('クリック完了1', new Date());
+          setTimeout(() => { resolve(); }, 2000);
+        })
       })
     // ipcMain.on(CONFIG.FROMRENDERER)
   }
@@ -102,12 +133,10 @@ class IPCForBrowsing {
   // }
 
   moveMouseSmooth(moveTo) {
-    console.log('moveTo.x, moveTo.y', moveTo.x, moveTo.y);
     robot.moveMouseSmooth(moveTo.x, moveTo.y);
   }
 
   calcMousePosition(point, browserPosition) {
-    console.log('point.x, point.y', point.x, point.y);
     return {
       x: point.x + browserPosition.availX,
       y: point.y + browserPosition.availY,

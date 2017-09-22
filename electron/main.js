@@ -26,10 +26,3 @@ ipcForSetting.start();
 
 const ipcForBrowsing = IPCForBrowsingObject.apply();
 ipcForBrowsing.start();
-
-ipcMain.on('crawlExec', (event, target) => {
-  const tmpWindow = new BrowserWindow({ width: 1000, height: 700 });
-  tmpWindow.loadURL('http://labs.gree.jp/blog/2013/12/9354/');
-  event.sender.send('fromParent', `${target} OK Comming1!${tmpWindow.id}`);
-});
-

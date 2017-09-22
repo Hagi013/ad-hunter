@@ -8,6 +8,7 @@ class IPCForSetting {
   constructor() {
     this.win = '';
     this.event = '';
+    this.actionId = '';
   }
 
   start() {
@@ -18,8 +19,10 @@ class IPCForSetting {
 
   activateTargetSetting(KEY) {
 
-    ipcMain.on(CONFIG[KEY]['FROMVUE'], (event, url) => {
+    ipcMain.on(CONFIG[KEY]['FROMVUE'], (event, tuple) => {
       this.event = event;
+      this.actionId = tuple._1;
+      const url = tuple._2;
       this.createWindow(url);
       this.readyRecieveEvent(CONFIG[KEY]['FROMRENDERER'], CONFIG[KEY]['TOVUE']);
       this.executeJS(HuntedSettingService.actionToStr(KEY));
@@ -47,7 +50,11 @@ class IPCForSetting {
 
   readyRecieveEvent(fromActionType, toActionType) {
    ipcMain.on(fromActionType, (cEvent, recievedItem) => {
-     this.event.sender.send(toActionType, recievedItem);
+     const settings = {
+       actionId: this.actionId,
+       settings: recievedItem,
+     };
+     this.event.sender.send(toActionType, settings);
    });
   }
 

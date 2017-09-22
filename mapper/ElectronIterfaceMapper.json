@@ -16,6 +16,12 @@
       "FROMVUE": "simulateAction",
       "FROMRENDERER": "simulatedAction",
       "TOVUE": "simulateActionReturn"
+    },
+    "EXECUTE": {
+      "FROMVUE": "executeBrowsing",
+      "FROMRENDERER": "executedBrowsing",
+      "TOVUE": "executeBrowsingReturn"
     }
+
   }
 }

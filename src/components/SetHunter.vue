@@ -23,13 +23,13 @@ electron/service/HuntedBrowsingService.js<template lang='pug'>
       .form-group.row
         label.col-1.col-form-label(for='start') Start
         .col-4
-          input#start.form-control(type='date' v-model='hunted.start')
+          input#start.form-control(type='date' v-model='hunted.settings.start')
 
         label.col-1.col-form-label.text-center(for='start') 〜
 
         label.col-1.col-form-label(for='end') End
         .col-4
-          input#end.form-control(type='date' v-model='hunted.end')
+          input#end.form-control(type='date' v-model='hunted.settings.end')
 
       hr
 
@@ -146,6 +146,7 @@ electron/service/HuntedBrowsingService.js<template lang='pug'>
 
 <script>
   /* eslint-disable */
+  import moment from 'moment';
   import { emptyCheck } from '../lib/utils/CheckUtils';
   import { HuntedObject }from '../model/Hunted';
   import { ActionObject } from '../model/Action';
@@ -165,13 +166,18 @@ electron/service/HuntedBrowsingService.js<template lang='pug'>
     data() {
       return {
         hunted: {
+          id: '0',
           url: '',
-          start: '',
-          end: '',
-          pv: 0,
-          timeout: 0,
-          ctr: 0,
+          settings: {
+            pv: 0,
+            timeout: 0,
+            ctr: 0,
+            start: '',
+            end: '',
+          },
           flow: [],
+          updatedAt: '',
+          description: '',
         },
         action: {
           CLICK: 'searchItem',
@@ -181,21 +187,13 @@ electron/service/HuntedBrowsingService.js<template lang='pug'>
     },
 
     mounted() {
-      // this.hunted = HuntedObject.apply();
+      this.hunted = HuntedObject.apply({ id: `#${moment().format('x')}` });
     },
 
     methods: {
 
       addFlowItem() {
-        this.hunted.flow.push(ActionObject.apply());
-      },
-
-      simulateItem(idx) {
-        console.log(this.hunted.flow[idx], idx, this.hunted.flow);
-        if (emptyCheck(this.hunted.url)) return;
-        const SimulateTupleType = new Tuple(String, ActionObject.apply().constructor);
-        const simulateTuple = new SimulateTupleType(this.hunted.url, ActionObject.apply(this.hunted.flow[idx]));
-        ElectronClient.simulateAction(simulateTuple);
+        this.hunted.flow.push(ActionObject.apply({id: `${this.hunted.id}#${this.hunted.flow.length + 1}`}));
       },
 
       removeFlowItem(idx) {
@@ -209,15 +207,21 @@ electron/service/HuntedBrowsingService.js<template lang='pug'>
 
       searchItem(idx) {
         if (emptyCheck(this.hunted.url)) return;
-        ElectronClient.searchItem(this.hunted.url, (event, target) => {
-          this.hunted.flow[idx].item = ElementObject.apply(target);
+        const SettingTupleType = new Tuple(String, String);
+        const settingTuple = new SettingTupleType(this.hunted.flow[idx].id, this.hunted.url);
+        ElectronClient.searchItem(settingTuple, (event, settings) => {
+          if (settings.actionId !== this.hunted.flow[idx].id) return;
+          this.hunted.flow[idx].item = ElementObject.apply(settings.settings);
         });
       },
 
       scrollScreen(idx) {
         if (emptyCheck(this.hunted.url)) return;
-        ElectronClient.scrollScreen(this.hunted.url, (event, target) => {
-          this.hunted.flow[idx].scroll = ElementObject.apply(target);
+        const SettingTupleType = new Tuple(String, String);
+        const settingTuple = new SettingTupleType(this.hunted.flow[idx].id, this.hunted.url);
+        ElectronClient.scrollScreen(settingTuple, (event, settings) => {
+          if (settings.actionId !== this.hunted.flow[idx].id) return;
+          this.hunted.flow[idx].scroll = ElementObject.apply(settings.settings);
         });
       },
 
@@ -233,11 +237,20 @@ electron/service/HuntedBrowsingService.js<template lang='pug'>
 
       save() {},
 
+      simulateItem(idx) {
+        if (emptyCheck(this.hunted.url)) return;
+        const SimulateTupleType = new Tuple(String, ActionObject.apply().constructor);
+        const simulateTuple = new SimulateTupleType(this.hunted.url, ActionObject.apply(this.hunted.flow[idx]));
+        ElectronClient.simulateAction(simulateTuple);
+      },
+
       start() {
-        window.localStorage.setItem('now', new Date());
-        localStorage.setItem('OK', `Just Now!!${new Date()}`);
-        const res = ipcRenderer.sendSync('crawlExec', 'From Hello');
-        console.log('res', res);
+        if (emptyCheck(this.hunted.url)) return;
+        const ExecuteBrowsingTupleType = new Tuple(String, Array);
+        const executeBrowsingTuple = new ExecuteBrowsingTupleType(this.hunted.url, HuntedObject.apply(this.hunted).flow);
+        ElectronClient.executeBrowsing(executeBrowsingTuple, (event, log) => {
+          console.log('log', log);
+        });
       },
 
     },
