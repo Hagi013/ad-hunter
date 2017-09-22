@@ -1,16 +1,16 @@
-/* eslint-disable object-shorthand,import/extensions,import/no-unresolved */
+/* eslint-disable object-shorthand,import/extensions,import/no-unresolved,no-underscore-dangle,max-len */
 import { ipcRenderer } from 'electron';
 import CONFIG from '../../../mapper/ElectronIterfaceMapper.json';
 
 export default class ElectronClient {
 
-  static searchItem(url, func) {
-    ipcRenderer.send(CONFIG.SETTING.CLICK.FROMVUE, url);
+  static searchItem(tuple, func) {
+    ipcRenderer.send(CONFIG.SETTING.CLICK.FROMVUE, tuple);
     ipcRenderer.on(CONFIG.SETTING.CLICK.TOVUE, func);
   }
 
-  static scrollScreen(url, func) {
-    ipcRenderer.send(CONFIG.SETTING.SCROLL.FROMVUE, url);
+  static scrollScreen(tuple, func) {
+    ipcRenderer.send(CONFIG.SETTING.SCROLL.FROMVUE, tuple);
     ipcRenderer.on(CONFIG.SETTING.SCROLL.TOVUE, func);
   }
 
