@@ -18,4 +18,9 @@ export default class ElectronClient {
     ipcRenderer.send(CONFIG.BROWSING.SIMULATE.FROMVUE, tuple);
     // ipcRenderer.on(CONFIG.SCROLL.TOVUE, func);
   }
+
+  static executeBrowsing(tuple, func) {
+    ipcRenderer.send(CONFIG.BROWSING.EXECUTE.FROMVUE, tuple);
+    ipcRenderer.on(CONFIG.BROWSING.EXECUTE.TOVUE, func);
+  }
 }
