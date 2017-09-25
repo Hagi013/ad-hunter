@@ -1,8 +1,9 @@
 import BaseModel from './BaseModel';
 import { ElementObject } from './Element';
 import { OperationObject } from './Operation';
-import { notEmptyCheck, notEmptyObjCheck } from '../lib/utils/CheckUtils';
+import { emptyCheck, notEmptyCheck, notEmptyObjCheck } from '../lib/utils/CheckUtils';
 import { actionTypeCheck } from './type/HuntedActionType';
+import Exception from '../lib/Exception';
 
 export default class Action extends BaseModel {
   constructor(data) {
@@ -35,6 +36,24 @@ export class ActionObject {
       ctr: '',
       operation: '',
     };
+  }
+
+  static createItemForSave(action) {
+    const forSaving = {
+      id: action.id,
+      type: action.type,
+      item: ElementObject.createItemForSave(action.item),
+      scroll: ElementObject.createItemForSave(action.scroll),
+      ctr: action.ctr,
+      operation: OperationObject.createItemForSave(action.operation),
+    };
+    this.validateCheck(forSaving);
+    return this.apply(forSaving);
+  }
+
+  static validateCheck(obj) {
+    if (emptyCheck(obj.id)) throw new Exception('Action must be set Id');
+    if (emptyCheck(obj.type) && actionTypeCheck(obj.type)) throw new Exception('Action must be set type');
   }
 
 }

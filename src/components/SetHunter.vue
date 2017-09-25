@@ -187,7 +187,7 @@ electron/service/HuntedBrowsingService.js<template lang='pug'>
     },
 
     mounted() {
-      this.hunted = HuntedObject.apply({ id: `#${moment().format('x')}` });
+      this.hunted = HuntedObject.apply({ id: `${moment().format('x')}` });
     },
 
     methods: {
@@ -235,7 +235,9 @@ electron/service/HuntedBrowsingService.js<template lang='pug'>
         this.hunted.flow[idx].operation = OperationObject.apply(obj);
       },
 
-      save() {},
+      save() {
+        HuntedObject.save(this.hunted);
+      },
 
       simulateItem(idx) {
         if (emptyCheck(this.hunted.url)) return;
