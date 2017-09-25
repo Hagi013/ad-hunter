@@ -42,4 +42,9 @@ export class ElementObject {
       // eventHTML: '',
     };
   }
+
+  static createItemForSave(elem) {
+    return this.apply(elem);
+  }
+
 }

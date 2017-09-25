@@ -28,4 +28,8 @@ export class SettingsObject {
       stop: '',
     };
   }
+
+  static createItemForSave(setting) {
+    return this.apply(setting);
+  }
 }

@@ -1,5 +1,6 @@
 import BaseModel from './BaseModel';
 import { notEmptyCheck, notEmptyObjCheck } from '../lib/utils/CheckUtils';
+import Exception from '../lib/Exception';
 
 export default class Operation extends BaseModel {
 
@@ -26,5 +27,14 @@ export class OperationObject {
       num: '',
       funcStr: '',
     };
+  }
+
+  static createItemForSave(op) {
+    this.validateCheck(op);
+    return this.apply(op);
+  }
+
+  static validateCheck(obj) {
+    if (notEmptyCheck(obj.num) && Number(obj.num) < 0) throw new Exception('Operation number must be greater than or equal to 0.');
   }
 }
