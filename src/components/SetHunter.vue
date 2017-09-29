@@ -187,6 +187,12 @@ electron/service/HuntedBrowsingService.js<template lang='pug'>
     },
 
     mounted() {
+      console.log('this.$route.query', this.$route.query);
+      if (this.$route.query.id) {
+        this.hunted = HuntedObject.getById(this.$route.query.id);
+        return;
+      }
+
       this.hunted = HuntedObject.apply({ id: `${moment().format('x')}` });
     },
 
