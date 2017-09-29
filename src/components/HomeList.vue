@@ -56,20 +56,12 @@
     methods: {
       init() {
         this.getHtdList();
-        this.createFlagList();
       },
 
       getHtdList() {
         this.htdList = HuntedObject.getAll();
       },
-
-      createFlagList() {
-        this.htdList.forEach(() => {
-          this.startEditFlagList.push(false);
-          this.stopEditFlagList.push(false);
-        });
-      },
-
+      
       goCreatePage() {
         router.push({ path: 'set-hunter' });
       },
