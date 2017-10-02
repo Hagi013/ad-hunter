@@ -61,7 +61,7 @@
       getHtdList() {
         this.htdList = HuntedObject.getAll();
       },
-      
+
       goCreatePage() {
         router.push({ path: 'set-hunter' });
       },
