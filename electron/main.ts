@@ -1,8 +1,7 @@
 /* eslint-disable */
-const { BrowserWindow, ipcMain } = require('electron');
-const ElectronObject = require('./model/Electron');
-const IPCForSettingObject = require('./model/IPCForSetting');
-const IPCForBrowsingObject = require('./model/IPCForBrowsing');
+import ElectronObject from './model/Electron';
+import IPCForSettingObject from './model/IPCForSetting';
+import IPCForBrowsingObject from './model/IPCForBrowsing';
 
 const electron = ElectronObject.apply();
 

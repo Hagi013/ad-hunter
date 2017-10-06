@@ -4,7 +4,7 @@
     .container
       .row
         h1 Welcome to Ad-Hunter!!!
-        tabel.table.table-hover.table-responsive
+        tabel.table.table-hover
           thead
             th No
             th URL

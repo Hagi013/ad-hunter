@@ -1,4 +1,4 @@
-electron/service/HuntedBrowsingService.js<template lang='pug'>
+<template lang='pug'>
 
   div.setHunter
 

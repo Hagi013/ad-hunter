@@ -1,8 +1,8 @@
 /* eslint-disable */
-const { BrowserWindow, ipcMain } = require('electron');
-const robot = require('robotjs');
+import { BrowserWindow, ipcMain } from 'electron';
+import * as robot from 'robotjs';
+import HuntedBrowsingService from '../service/HuntedBrowsingService';
 const CONFIG = require('../../mapper/ElectronIterfaceMapper.json').BROWSING;
-const HuntedBrowsingService = require('../service/HuntedBrowsingService');
 
 const method = {
   SIMULATE: 'activateSimulate',
@@ -17,20 +17,24 @@ const browsingMethod = {
 
 class IPCForBrowsing {
 
+  private win: BrowserWindow;
+  private event: any;
+  private currentFlow: Array<any>;
+
   constructor() {
-    this.win = '';
-    this.event = '';
+    this.win = null;
+    this.event = null;
     this.currentFlow = [];
 
   }
 
-  start() {
+  start(): void {
     Object.keys(CONFIG).forEach(KEY => {
       this.activateBrowsing(KEY);
     });
   }
 
-  activateBrowsing(KEY) {
+  activateBrowsing(KEY): void {
 
     ipcMain.on(CONFIG[KEY]['FROMVUE'], (event, procedure) => {
       this.event = event;
@@ -44,7 +48,7 @@ class IPCForBrowsing {
   /**
    @param tuple {Tuple(url: String, flow: [Action])}
    */
-  executeBrowsing(tuple) {
+  executeBrowsing(tuple): void {
     const url = tuple._1;
     const flow = tuple._2;
 
@@ -65,16 +69,16 @@ class IPCForBrowsing {
   /**
     @param tuple {Tuple(url: String, action: Action)}
   */
-  activateSimulate(tuple) {
+  activateSimulate(tuple): void {
     const url = tuple._1;
     const action = tuple._2;
     this.createWindow(url);
     this.executeAction(action);
   }
 
-  createWindow(url) {
+  createWindow(url): void {
     this.win = new BrowserWindow({
-      nodeIntegration: 'iframe',
+      // nodeIntegration: 'iframe',
       webPreferences: {webSecurity: false},
       frame: false,
       width: 1500,
@@ -87,11 +91,11 @@ class IPCForBrowsing {
     });
   }
 
-  executeAction(action) {
+  executeAction(action): void {
     return this[browsingMethod[action.type]](action);
   }
 
-  executeClick(action) {
+  executeClick(action): Promise<any>  {
 
     // スクロール　+ 要素の画面全体での位置を取得
     return this.executeJS(HuntedBrowsingService.actionToStr(action))
@@ -117,12 +121,12 @@ class IPCForBrowsing {
     // ipcMain.on(CONFIG.FROMRENDERER)
   }
 
-  executeScreenOperation(action) {
+  executeScreenOperation(action): Promise<{}> {
     // スクロールの実行 or オペレーションの実行
     return this.executeJS(HuntedBrowsingService.actionToStr(action));
   }
 
-  executeJS(funcStr) {
+  executeJS(funcStr): Promise<any> {
     return this.win.webContents.executeJavaScript(funcStr, true);
   }
 
@@ -132,32 +136,30 @@ class IPCForBrowsing {
   //  });
   // }
 
-  moveMouseSmooth(moveTo) {
+  moveMouseSmooth(moveTo): void {
     robot.moveMouseSmooth(moveTo.x, moveTo.y);
   }
 
-  calcMousePosition(point, browserPosition) {
+  calcMousePosition(point, browserPosition): object {
     return {
       x: point.x + browserPosition.availX,
       y: point.y + browserPosition.availY,
     }
   }
 
-  executeMouseClick() {
+  executeMouseClick(): void {
     robot.mouseClick();
   }
 
-  closeWindow(sec=20000) {
+  closeWindow(sec=20000): void {
     setTimeout(() => {
       this.win.destroy();
     }, sec);
   }
 }
 
-const IPCForBrowsingObject = class {
-  static apply() {
+export default class IPCForBrowsingObject {
+  static apply(): IPCForBrowsing {
     return new IPCForBrowsing();
   }
 };
-
-module.exports = IPCForBrowsingObject;

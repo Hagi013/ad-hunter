@@ -13,14 +13,14 @@ const actionConfig = {
 
 // const CONFIG = require('../../mapper/ElectronIterfaceMapper.json').BROWSING;
 
-const HuntedBrowsingService = class {
+export default class HuntedBrowsingService {
 
-  static actionToStr(action) {
+  static actionToStr(action): string {
     return this[config[action.type]](action[actionConfig[action.type]]).toString().replace(/\(\w*\)\s?\=\>\s?\{/, '').replace(/origin/, JSON.stringify(action[actionConfig[action.type]])).replace(/}$/,'').trim();
   }
 
-  static prepareClick(origin) {
-    let res;
+  static prepareClick(origin): () => void {
+    let res: string;
 
     // 下記の関数はRendererプロセス内のグローバルな関数として定義されるため、同じFlowかつ同じページ内で複数回実行されると「has already been declared」エラーが発生するので、
     // 関数自体を無名関数で実行するようにした。
@@ -53,7 +53,7 @@ const HuntedBrowsingService = class {
   //   window.getElement
   // }
 
-  static executeScroll(origin) {
+  static executeScroll(origin): () => void  {
 
     // 下記の関数はRendererプロセス内のグローバルな関数として定義されるため、同じFlowかつ同じページ内で複数回実行されると「has already been declared」エラーが発生するので、
     // 関数自体を無名関数で実行するようにした。
@@ -70,7 +70,7 @@ const HuntedBrowsingService = class {
     }
   }
 
-  static executeOperation(origin) {
+  static executeOperation(origin): () => void  {
 
     // 下記の関数はRendererプロセス内のグローバルな関数として定義されるため、同じFlowかつ同じページ内で複数回実行されると「has already been declared」エラーが発生するので、
     // 関数自体を無名関数で実行するようにした。
@@ -110,5 +110,3 @@ const HuntedBrowsingService = class {
     }
   }
 }
-
-module.exports = HuntedBrowsingService;
