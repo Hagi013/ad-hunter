@@ -5,13 +5,13 @@ const config = {
 };
 const CONFIG = require('../../mapper/ElectronIterfaceMapper.json').SETTING;
 
-const HuntedSettingService = class {
+export default class HuntedSettingService {
 
-  static actionToStr(EVENT) {
+  static actionToStr(EVENT): string {
     return this[config[EVENT]].toString().replace(/\w*\(\)\s?\{/, '').replace(/}$/,'').replace(/CONFIG\.\w*\.FROMRENDERER/, `'${CONFIG[EVENT].FROMRENDERER}'`).trim();
   }
 
-  static clickEventListener() {
+  static clickEventListener(): void {
     const ipcRenderer = require('electron').ipcRenderer;
     window.addEventListener('click', (event) => {
       const res = {
@@ -30,7 +30,7 @@ const HuntedSettingService = class {
     });
   }
 
-  static scrollEventListener() {
+  static scrollEventListener(): void {
     const ipcRenderer = require('electron').ipcRenderer;
     window.addEventListener('click', (event) => {
       const res = {
@@ -45,5 +45,3 @@ const HuntedSettingService = class {
     });
   }
 }
-
-module.exports = HuntedSettingService;

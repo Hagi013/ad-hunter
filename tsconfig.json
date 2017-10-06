@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es2017",
+    "sourceMap": true,
+    "allowJs": true,
+    "types" : ["node"],
+    "outDir": "dist"
+  },
+  "include": [
+    "electron/*.ts",
+    "electron/*",
+    "electron/**/*",
+    "mapper/*.json"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "src",
+    "build",
+    "config",
+    ".github",
+    "static",
+    "test",
+    ".eslintrc.js",
+    ".postcssrc.js"
+  ]
+}

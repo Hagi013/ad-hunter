@@ -1,25 +1,27 @@
 /* eslint-disable */
-const { app, BrowserWindow, ipcMain } = require('electron');
-const path = require('path');
-const url = require('url');
+import { app, BrowserWindow, ipcMain } from 'electron';
+import * as path from 'path';
+import * as url from 'url';
 
 class Electron {
 
+  private win: BrowserWindow;
+
   constructor() {
-    this.win = '';
+    this.win = null;
   }
 
-  start() {
+  start(): void {
     this.mainStart();
     this.readyAfterClosed();
     this.readyActivate();
   }
 
-  mainStart() {
+  mainStart(): void {
     app.on('ready', this.createWindow);
   }
 
-  createWindow() {
+  createWindow(): void {
     this.win = new BrowserWindow({ width: 1500, height: 900 });
 
     this.win.loadURL(url.format({
@@ -37,7 +39,7 @@ class Electron {
     });
   }
 
-  readyAfterClosed() {
+  readyAfterClosed(): void {
     app.on('window-all-closed', () => {
       if (process.platform !== 'darwin') {
         app.quit();
@@ -45,9 +47,9 @@ class Electron {
     });
   }
 
-  readyActivate() {
+  readyActivate(): void {
     app.on('activate', () => {
-      if (electron.win === null) {
+      if (this.win === null) {
         this.createWindow();
       }
     });
@@ -56,11 +58,9 @@ class Electron {
 }
 
 
-const ElectronObject = class {
+export default class ElectronObject {
 
-  static apply() {
+  static apply(): Electron {
     return new Electron();
   }
 }
-
-module.exports = ElectronObject;
