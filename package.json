@@ -15,7 +15,10 @@
     "test": "npm run unit && npm run e2e",
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs",
     "rebuild": "npm rebuild --runtime=electron --target=1.8.0 --disturl=https://atom.io/download/atom-shell --abi=51",
-    "tsc": "tsc"
+    "tsc": "tsc",
+    "electron-start": "./node_modules/electron/dist/Electron.app/Contents/MacOS/Electron .",
+    "electron": "npm run tsc && npm run build && npm run electron-start"
+
   },
   "dependencies": {
     "@types/node": "^8.0.31",
