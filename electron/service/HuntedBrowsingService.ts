@@ -9,7 +9,7 @@ const actionConfig = {
   CLICK: 'item',
   SCROLL: 'scroll',
   OPERATION: 'operation',
-}
+};
 
 // const CONFIG = require('../../mapper/ElectronIterfaceMapper.json').BROWSING;
 
@@ -36,23 +36,6 @@ export default class HuntedBrowsingService {
     }
   }
 
-  // static prepareClickFromId(id) {
-  //   const id = document.getElementById(id);
-  //   id.scrollIntoView(true);
-  //   id.click();
-  // }
-  //
-  // static prepareClickFromClass(className) {
-  //   const classElem = document.getElementsByClassName(className)[0];
-  //   classElem.scrollIntoView(true);
-  //   classElem.click();
-  // }
-  //
-  // static prepareClickFromPoint(windowInfo) {
-  //   document.elementFromPoint(windowInfo.x, windowInfo.y);
-  //   window.getElement
-  // }
-
   static executeScroll(origin): () => void  {
 
     // 下記の関数はRendererプロセス内のグローバルな関数として定義されるため、同じFlowかつ同じページ内で複数回実行されると「has already been declared」エラーが発生するので、
@@ -60,12 +43,10 @@ export default class HuntedBrowsingService {
     return () => {
       (() => {
 
-        // const ipcRenderer = require('electron').ipcRenderer;
         const point = origin;
         const pageX = point.pageX;
         const pageY = point.pageY;
         window.scrollTo(pageX, pageY);
-        // ipcRenderer.send(CONFIG.CLICK.FROMRENDERER, res);
       })();
     }
   }
@@ -85,9 +66,10 @@ export default class HuntedBrowsingService {
           const startTime = moment();
           let now = moment();
           while(now.diff(startTime) < num*1000) {
-            console.log(startTime.diff(now), now.diff(startTime));
+            // console.log(startTime.diff(now));
             now = moment();
           }
+          console.log('wait finish!!');
         };
 
         const operation = origin;

@@ -15,15 +15,27 @@ const browsingMethod = {
   OPERATION: 'executeScreenOperation',
 }
 
+let clickProcessingFlag: boolean = false;
+
+type BrowsingManagedObject = {
+  win: BrowserWindow;
+  event: any;
+  htdId: string;
+}
+
+type ReturnObj = {
+  type: string,
+  htdId: string
+}
+
+
 class IPCForBrowsing {
 
-  private win: BrowserWindow;
-  private event: any;
+  private manageObj: Map<number, BrowsingManagedObject>;
   private currentFlow: Array<any>;
 
   constructor() {
-    this.win = null;
-    this.event = null;
+    this.manageObj = new Map();
     this.currentFlow = [];
 
   }
@@ -37,10 +49,7 @@ class IPCForBrowsing {
   activateBrowsing(KEY): void {
 
     ipcMain.on(CONFIG[KEY]['FROMVUE'], (event, procedure) => {
-      this.event = event;
-      this[method[KEY]](procedure);
-      // this.readyRecieveEvent(CONFIG[KEY]['FROMRENDERER'], CONFIG[KEY]['TOVUE']);
-      // this.executeJS(HuntedSettingService.actionToStr(KEY));
+      this[method[KEY]](event, procedure);
       // this.closeWindow();
     });
   }
@@ -48,7 +57,7 @@ class IPCForBrowsing {
   /**
    @param tuple {Tuple(url: String, flow: [Action])}
    */
-  executeBrowsing(tuple): void {
+  executeBrowsing(event, tuple): void {
     const url = tuple._1;
     const flow = tuple._2;
 
@@ -57,48 +66,71 @@ class IPCForBrowsing {
 
     this.currentFlow.push(tuple);
 
-    this.createWindow(url);
-    flow.reduce((prev, action, index, array) => {
-      return prev
-        .then(() => { console.log('2', new Date()); return this.executeAction(action) });
-    }, Promise.resolve()).then(() =>{
+    const htdId = flow[0].id.split('#')[0];
+    const id = this.createWindow(event, url, htdId);
+
+    flow.reduce((prev, action) => prev.then(() => this.executeAction(id, action)), Promise.resolve())
+    .then(() => {
+      // console.log('終了！');
+      this.readyRecieveEvent(CONFIG['EXECUTE']['TOVUE'], id, this.createReturnObj('PV', this.manageObj.get(id).htdId));
       this.currentFlow = this.currentFlow.filter(t => !(tuple._1 === t._1 && JSON.stringify(tuple._2) === JSON.stringify(t._2)));
-    }).catch(() => { this.currentFlow = this.currentFlow.filter(t => !(tuple._1 === t._1 && JSON.stringify(tuple._2) === JSON.stringify(t._2))) });
+      this.closeWindow(id);
+    })
+    .catch(() => {
+      this.readyRecieveEvent(CONFIG['EXECUTE']['TOVUE'], id, this.createReturnObj('PVERROR!', this.manageObj.get(id).htdId));
+      this.currentFlow = this.currentFlow.filter(t => !(tuple._1 === t._1 && JSON.stringify(tuple._2) === JSON.stringify(t._2)));
+      this.closeWindow(id);
+    });
   }
 
   /**
     @param tuple {Tuple(url: String, action: Action)}
   */
-  activateSimulate(tuple): void {
+  activateSimulate(event, tuple): void {
     const url = tuple._1;
     const action = tuple._2;
-    this.createWindow(url);
-    this.executeAction(action);
+    const htdId = action.id.split('#')[0];
+    const id = this.createWindow(event, url, htdId);
+    this.executeAction(id, action);
   }
 
-  createWindow(url): void {
-    this.win = new BrowserWindow({
+  createWindow(event, url, htdId): number {
+    let win = new BrowserWindow({
       // nodeIntegration: 'iframe',
       webPreferences: {webSecurity: false},
       frame: false,
       width: 1500,
       height: 900 });
 
-    this.win.loadURL(url);
+    win.loadURL(url);
 
-    this.win.on('closed', () => {
-      this.win = null;
+    win.on('closed', () => {
+      win = null;
     });
+
+    this.registerManageObj(win.id, {win ,event, htdId});
+    return win.id;
   }
 
-  executeAction(action): void {
-    return this[browsingMethod[action.type]](action);
+  registerManageObj(id: number, obj: BrowsingManagedObject) {
+    this.manageObj.set(id, obj);
   }
 
-  executeClick(action): Promise<any>  {
+  executeAction(id, action): Promise<any> {
+    return this[browsingMethod[action.type]](id, action);
+  }
+
+  executeClick(id, action): Promise<any>  {
+
+    if (clickProcessingFlag) {
+      // console.log('来ない');
+      return;
+    }
+    // console.log('来た');
+    clickProcessingFlag = true;
 
     // スクロール　+ 要素の画面全体での位置を取得
-    return this.executeJS(HuntedBrowsingService.actionToStr(action))
+    return this.executeJS(id, HuntedBrowsingService.actionToStr(action))
       .then(res => {
         const resObj = JSON.parse(res);
         console.log(resObj);
@@ -106,37 +138,63 @@ class IPCForBrowsing {
       })
       .then(browserPosition => {  // マウスをクリック位置まで動かす
         return new Promise(resolve => {
+          this.focusWindow(id);
           this.moveMouseSmooth(this.calcMousePosition(action.item, browserPosition));
-          console.log('スクロール完了', new Date());
+          // console.log('スクロール完了', new Date());
           resolve();
         })
+      })
+      .then(() => {
+        return new Promise(resolve => {
+          this.focusWindow(id);
+          setTimeout(() => {
+            clickProcessingFlag = false;
+            resolve();
+          }, 500);
+        });
       })
       .then(() => { // クリックする
         return new Promise(resolve => {
           this.executeMouseClick();
-          console.log('クリック完了1', new Date());
-          setTimeout(() => { resolve(); }, 2000);
+          this.readyRecieveEvent(CONFIG['EXECUTE']['TOVUE'], id, this.createReturnObj('CLICKED!!', this.manageObj.get(id).htdId));
+          // console.log('クリック完了1', new Date());
+          setTimeout(() => {
+            clickProcessingFlag = false;
+            resolve();
+          }, 2000);
         })
       })
-    // ipcMain.on(CONFIG.FROMRENDERER)
+      .catch(e => {
+        console.log('Click process Failed');
+        console.error(e);
+        throw 'Error';
+      });
   }
 
-  executeScreenOperation(action): Promise<{}> {
+  focusWindow(id) {
+    console.log('Focus!!!!!');
+    this.manageObj.get(id).win.show();
+  }
+
+  executeScreenOperation(id, action): Promise<{}> {
     // スクロールの実行 or オペレーションの実行
-    return this.executeJS(HuntedBrowsingService.actionToStr(action));
+    return this.executeJS(id, HuntedBrowsingService.actionToStr(action));
   }
 
-  executeJS(funcStr): Promise<any> {
-    return this.win.webContents.executeJavaScript(funcStr, true);
+  executeJS(id, funcStr): Promise<any> {
+    return this.manageObj.get(id).win.webContents.executeJavaScript(funcStr, true)
+      .catch(e => {
+        console.error(e);
+        throw 'Error';
+      });
   }
 
-  // readyRecieveEvent(fromActionType, toActionType) {
-  //  ipcMain.on(fromActionType, (cEvent, recievedData) => {
-  //    this.event.sender.send(toActionType, recievedData);
-  //  });
-  // }
+  readyRecieveEvent(toActionType, id, recievedData) {
+    this.manageObj.get(id).event.sender.send(toActionType, recievedData);
+  }
 
   moveMouseSmooth(moveTo): void {
+    robot.moveMouseSmooth(40, 300);
     robot.moveMouseSmooth(moveTo.x, moveTo.y);
   }
 
@@ -151,10 +209,18 @@ class IPCForBrowsing {
     robot.mouseClick();
   }
 
-  closeWindow(sec=20000): void {
-    setTimeout(() => {
-      this.win.destroy();
-    }, sec);
+  closeWindow(id, sec=2000): void {
+    if (id === undefined) return;
+    // setTimeout(this.manageObj.get(id).win.destroy(), sec);
+    this.manageObj.get(id).win.destroy();
+    this.manageObj.delete(id);
+  }
+
+  createReturnObj(type: string, htdId: string) {
+    return {
+      type,
+      htdId
+    };
   }
 }
 

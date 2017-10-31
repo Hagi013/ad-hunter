@@ -14,7 +14,7 @@ export default class Action extends BaseModel {
     this.item = ElementObject.apply(data.item);
     this.scroll = ElementObject.apply(data.scroll);
     this.operation = OperationObject.apply(data.operation);
-    this.ctr = notEmptyCheck(data.ctr) ? data.ctr : '';
+    this.ctr = notEmptyCheck(data.ctr) ? Number(data.ctr) : '';
   }
 }
 
@@ -33,8 +33,8 @@ export class ActionObject {
       type: '',
       item: '',
       scroll: '',
-      ctr: '',
       operation: '',
+      ctr: '',
     };
   }
 
@@ -44,8 +44,8 @@ export class ActionObject {
       type: action.type,
       item: ElementObject.createItemForSave(action.item),
       scroll: ElementObject.createItemForSave(action.scroll),
-      ctr: action.ctr,
       operation: OperationObject.createItemForSave(action.operation),
+      ctr: Number(action.ctr),
     };
     this.validateCheck(forSaving);
     return this.apply(forSaving);

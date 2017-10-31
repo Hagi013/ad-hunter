@@ -30,7 +30,7 @@ class IPCForSetting {
       this.createWindow(url);
       this.readyRecieveEvent(CONFIG[KEY]['FROMRENDERER'], CONFIG[KEY]['TOVUE']);
       this.executeJS(HuntedSettingService.actionToStr(KEY));
-      // this.closeWindow();
+      this.closeWindow();
     });
   }
 

@@ -8,7 +8,7 @@ export default class HuntedRepository {
   }
 
   static findById(id) {
-    return this.findAll().filter(h => id === h.id)[0];
+    return this.findAll().filter(h => h.id === id)[0];
   }
 
   static upsert(hunted) {
@@ -40,5 +40,12 @@ export default class HuntedRepository {
 
   static upsertToStorage(huntedList) {
     upsertItemToStorage('hunted', huntedList);
+  }
+
+  static remove(id) {
+    this.findAll().forEach((h) => {
+      console.log(id, h.id, id === h.id);
+    });
+    this.upsertToStorage(this.findAll().filter(h => h.id !== id));
   }
 }

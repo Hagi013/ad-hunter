@@ -8,6 +8,7 @@ import { notEmptyCheck, arrayCheck, emptyCheck, notEmptyObjCheck } from '../lib/
 import Try from '../lib/Try';
 import ResultClass from '../lib/tuple/Result';
 import Exception from '../lib/Exception';
+import Tuple from '../lib/Tuple';
 
 export default class Hunted extends BaseModel {
   constructor(data) {
@@ -16,7 +17,7 @@ export default class Hunted extends BaseModel {
     this.url = notEmptyCheck(data.url) ? data.url : '';
     this.flow = arrayCheck(data.flow) ? data.flow.map(f => ActionObject.apply(f)) : [];
     this.updatedAt = notEmptyCheck(data.updatedAt) ? Number(data.updatedAt) : '';
-    this.settings = notEmptyCheck(data.settings) ? SettingsObject.apply(data.settings) : '';
+    this.settings = SettingsObject.apply(data.settings);
     this.description = notEmptyCheck(data.description) ? data.description : '';
   }
 }
@@ -39,6 +40,15 @@ export class HuntedObject {
       settings: '',
       description: '',
     };
+  }
+
+  static createBrowsingTuple(hunted, idx) {
+    const ExecuteBrowsingTupleType = new Tuple(String, Array);
+    console.log(idx);
+    if (idx) {
+      return new ExecuteBrowsingTupleType(hunted.url, [ActionObject.apply(hunted.flow[idx])]);
+    }
+    return new ExecuteBrowsingTupleType(hunted.url, HuntedObject.apply(hunted).flow);
   }
 
   static save(hunted) {
@@ -93,4 +103,13 @@ export class HuntedObject {
     if (triedHunted.isSuccess()) return triedHunted.get();
     return ResultClass('Exception', 'getById failed');
   }
+
+  static remove(id) {
+    const htdById = Try.apply(HuntedRepository.findById(id));
+    if (htdById.isFailure()) return ResultClass('Exception', `HuntedRepository.findById failed!! ${htdById}`);
+    const res = Try.apply(HuntedRepository.remove(id));
+    if (res.isFailure()) return ResultClass('Exception', `HuntedRepository.remove failed!! ${res}`);
+    return null;
+  }
+
 }
