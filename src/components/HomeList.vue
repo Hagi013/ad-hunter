@@ -116,7 +116,7 @@
         if (htd.settings.start === '' || moment(htd.settings.start) > moment()) return;
         let overSecondTimesPVFlag = false;
         ElectronClient.executeBrowsing(HuntedObject.createBrowsingTuple(htd), (event, log) => {
-          // console.log(log.type, `log.htdId: ${log.htdId} !== htd.id: ${htd.id}`, moment().format('HH:mm:sss'), htd.url);
+          // console.log(log.type, `log.htdId: ${log.htdId} !== htd.id: ${htd.id}`, moment().format('HH:mm:ss.SSS'), htd.url);
           if (log.htdId !== htd.id) return;
 
           // console.log(`overSecondTimesFlag: ${overSecondTimesPVFlag}`);

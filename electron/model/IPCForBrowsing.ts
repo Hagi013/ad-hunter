@@ -9,14 +9,6 @@ const method = {
   EXECUTE: 'executeBrowsing',
 };
 
-const browsingMethod = {
-  CLICK: 'executeClick',
-  SCROLL: 'executeScreenOperation',
-  OPERATION: 'executeScreenOperation',
-};
-
-let clickProcessingFlag: boolean = false;
-
 type BrowsingManagedObject = {
   win: BrowserWindow;
   event: any;

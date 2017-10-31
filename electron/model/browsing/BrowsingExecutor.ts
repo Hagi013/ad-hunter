@@ -9,8 +9,6 @@ const browsingMethod = {
   OPERATION: 'executeScreenOperation',
 };
 
-let clickProcessingFlag: boolean = false;
-
 type BrowsingManagedObject = {
   win: BrowserWindow;
   event: any;
@@ -42,13 +40,6 @@ export default class BrowsingExecutor {
 
   private static executeClick(bmo: BrowsingManagedObject, action): Promise<any>  {
 
-    if (clickProcessingFlag) {
-      // console.log('来ない');
-      return;
-    }
-    // console.log('来た');
-    clickProcessingFlag = true;
-
     // スクロール　+ 要素の画面全体での位置を取得
     return this.executeJS(bmo.win, HuntedBrowsingService.actionToStr(action))
       .then(res => {
@@ -67,7 +58,6 @@ export default class BrowsingExecutor {
         return new Promise(resolve => {
           this.focusWindow(bmo.win);
           setTimeout(() => {
-            clickProcessingFlag = false;
             resolve();
           }, 500);
         });
@@ -77,7 +67,6 @@ export default class BrowsingExecutor {
           this.executeMouseClick();
           // console.log('クリック完了1', new Date());
           setTimeout(() => {
-            clickProcessingFlag = false;
             resolve();
           }, 2000);
         });
