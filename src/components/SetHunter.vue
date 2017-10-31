@@ -53,7 +53,6 @@
           th Scroll
           th Operation
           th CTR
-          th Log
           th Simulate
           th Remove
         tbody
@@ -121,8 +120,6 @@
 
             td
               input.form-control(type='number' step='0.01' v-model='action.ctr' v-bind:disabled='action.type !== "CLICK"')
-
-            td {{ action.log }}
 
             td
               button.btn.btn-info(v-on:click='simulateItem(index)') simulate
