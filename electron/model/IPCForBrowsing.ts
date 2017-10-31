@@ -50,7 +50,6 @@ class IPCForBrowsing {
 
     ipcMain.on(CONFIG[KEY]['FROMVUE'], (event, procedure) => {
       this[method[KEY]](event, procedure);
-      // this.closeWindow();
     });
   }
 
@@ -69,7 +68,11 @@ class IPCForBrowsing {
     const htdId = flow[0].id.split('#')[0];
     const id = this.createWindow(event, url, htdId);
 
-    flow.reduce((prev, action) => prev.then(() => this.executeAction(id, action)), Promise.resolve())
+    flow.reduce((prev, action) => prev.then(() => {
+      // Clickの場合は確率調整
+      if (action.type === 'CLICK' && this.abandonClick(action.ctr)) return;
+      return this.executeAction(id, action);
+    }), Promise.resolve())
     .then(() => {
       // console.log('終了！');
       this.readyRecieveEvent(CONFIG['EXECUTE']['TOVUE'], id, this.createReturnObj('PV', this.manageObj.get(id).htdId));
@@ -120,6 +123,10 @@ class IPCForBrowsing {
     return this[browsingMethod[action.type]](id, action);
   }
 
+  abandonClick(ctr) {
+   return ctr !== 0 ? ctr <= Math.random() : false;
+  }
+
   executeClick(id, action): Promise<any>  {
 
     if (clickProcessingFlag) {
@@ -140,7 +147,6 @@ class IPCForBrowsing {
         return new Promise(resolve => {
           this.focusWindow(id);
           this.moveMouseSmooth(this.calcMousePosition(action.item, browserPosition));
-          // console.log('スクロール完了', new Date());
           resolve();
         })
       })
@@ -216,7 +222,7 @@ class IPCForBrowsing {
     this.manageObj.delete(id);
   }
 
-  createReturnObj(type: string, htdId: string) {
+  createReturnObj(type: string, htdId: string): ReturnObj {
     return {
       type,
       htdId
