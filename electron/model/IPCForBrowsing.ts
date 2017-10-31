@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { BrowserWindow, ipcMain } from 'electron';
+import { BrowserWindow, ipcMain, session } from 'electron';
 import * as robot from 'robotjs';
 import HuntedBrowsingService from '../service/HuntedBrowsingService';
 const CONFIG = require('../../mapper/ElectronIterfaceMapper.json').BROWSING;
@@ -112,11 +112,31 @@ class IPCForBrowsing {
     });
 
     this.registerManageObj(win.id, {win ,event, htdId});
+    this.deleteCookiesAsy(win.id);
     return win.id;
   }
 
   registerManageObj(id: number, obj: BrowsingManagedObject) {
     this.manageObj.set(id, obj);
+  }
+
+  deleteCookiesAsy(id: number): void {
+    this.manageObj.get(id).win.webContents.session.cookies.get({}, (error, cookies) => {
+      console.log('win.webContents.session.cookies', cookies);
+      cookies.forEach(cookie => {
+        const protocol = cookie.secure ? 'https://' : 'http://';
+        const www = cookie.domain.charAt(0) === '.' ?
+          cookie.domain.includes('.doubleclick.net') ? 'googleads.g' : 'www'
+          : '';
+        const domain = cookie.domain;
+        const path = cookie.path;
+        const url = `${protocol}${www}${domain}${path}`;
+        this.manageObj.get(id).win.webContents.session.cookies.remove(url, cookie.name, error => {
+          console.log(error);
+          console.log(`delete: ${cookie.name}: ${url}`);
+        });
+      });
+    });
   }
 
   executeAction(id, action): Promise<any> {
