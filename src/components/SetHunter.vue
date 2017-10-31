@@ -23,13 +23,22 @@
       .form-group.row
         label.col-1.col-form-label(for='start') Start
         .col-4
-          input#start.form-control(type='date' v-model='hunted.settings.start')
+          input#start.form-control(type='datetime-local' v-model='hunted.settings.start')
 
         label.col-1.col-form-label.text-center(for='start') 〜
 
         label.col-1.col-form-label(for='end') End
         .col-4
-          input#end.form-control(type='date' v-model='hunted.settings.end')
+          input#end.form-control(type='datetime-local' v-model='hunted.settings.end')
+
+      //- Interval
+      .form-group.row
+        label.col-1.col-form-label(for='interval') Interval
+        .col-4
+          input#interval.form-control(type='number' v-model='hunted.settings.interval')
+        label.col-1.col-form-label(for='pv') PV
+        .col-4
+          input#pv.form-control(type='number' v-model='hunted.settings.pv')
 
       hr
 
@@ -48,84 +57,72 @@
           th Simulate
           th Remove
         tbody
-          tr(v-for='(item, index) in hunted.flow')
+          tr(v-for='(action, index) in hunted.flow')
             td {{index+1}}
 
             td
-              select.form-control(v-model='item.type' v-on:change='decideAction(index)')
+              select.form-control(v-model='action.type' v-on:change='decideAction(index)')
                 option(value='CLICK') CLICK
                 option(value='SCROLL') SCROLL
                 option(value='OPERATION') OPERATION
 
-            td(v-bind:disabled='item.type !== "CLICK"')
+            td(v-bind:disabled='action.type !== "CLICK"')
               tr
                 td Page Offset X
-                td: input(v-model='item.item.pageXOffset')
+                td: input(v-model='action.item.pageXOffset')
               tr
                 td Page Offset Y
-                td: input(v-model='item.item.pageYOffset')
+                td: input(v-model='action.item.pageYOffset')
               tr
                 td Page Client X
-                td: input(v-model='item.item.x')
+                td: input(v-model='action.item.x')
               tr
                 td Page Client Y
-                td: input(v-model='item.item.y')
+                td: input(v-model='action.item.y')
               tr
                 td Page Overall X
-                td: input(v-model='item.item.pageX')
+                td: input(v-model='action.item.pageX')
               tr
                 td Page Overall Y
-                td: input(v-model='item.item.pageY')
+                td: input(v-model='action.item.pageY')
               tr
                 td Event Id
-                td: input(v-model='item.item.eventId')
+                td: input(v-model='action.item.eventId')
               tr
                 td Event Class
-                td: input(v-model='item.item.eventClass')
-              //tr
-              //  td Event DOM
-              //  td {{ item.item.eventDOM }}
-              //tr
-              //  td Event HTML
-              //  td {{ item.item.eventHTML }}
+                td: input(v-model='action.item.eventClass')
 
-            td(v-bind:disabled='item.type !== "SCROLL"')
+            td(v-bind:disabled='action.type !== "SCROLL"')
               tr
                 td Page Overall X
-                td: input(v-model='item.scroll.pageX')
+                td: input(v-model='action.scroll.pageX')
               tr
                 td Page Overall Y
-                td: input(v-model='item.scroll.pageY')
+                td: input(v-model='action.scroll.pageY')
               tr
                 td Event Id
-                td: input(v-model='item.scroll.eventId')
+                td: input(v-model='action.scroll.eventId')
               tr
                 td Event Class
-                td: input(v-model='item.scroll.eventClass')
-              //tr
-              //  td Event DOM
-              //  td {{ item.scroll.eventDOM }}
-              //tr
-              //  td Event HTML
-              //  td {{ item.scroll.eventHTML }}
+                td: input(v-model='action.scroll.eventClass')
 
             td
               tr.pb-2
-                select.form-control(v-model='item.operation.opType' v-bind:disabled='item.type !== "OPERATION"')
+                select.form-control(v-model='action.operation.opType' v-bind:disabled='action.type !== "OPERATION"')
                   option(value='BACK') BACK
                   option(value='FORWARD') FORWARD
                   option(value='WAIT') WAIT
                   option(value='CUSTOM') CUSTOM
               br
-              tr(v-if='item.operation.opType ===  "BACK" || item.operation.opType ===  "FORWARD" || item.operation.opType ===  "WAIT"')
-                input(type='number' v-model='item.operation.num' v-on:change='decideOperation(index)' v-bind:disabled='item.type !== "OPERATION"')
-              tr(v-if='item.operation.opType ===  "CUSTOM"')
-                textarea(rows=2 v-model='item.operation.funcStr' v-on:change='decideOperation(index)' v-bind:disabled='item.type !== "OPERATION"')
+              tr(v-if='action.operation.opType ===  "BACK" || action.operation.opType ===  "FORWARD" || action.operation.opType ===  "WAIT"')
+                input(type='number' v-model='action.operation.num' v-on:change='decideOperation(index)' v-bind:disabled='action.type !== "OPERATION"')
+              tr(v-if='action.operation.opType ===  "CUSTOM"')
+                textarea(rows=2 v-model='action.operation.funcStr' v-on:change='decideOperation(index)' v-bind:disabled='action.type !== "OPERATION"')
 
             td
-              input.form-control(type='text' v-model='item.ctr' v-bind:disabled='item.type !== "CLICK"')
+              input.form-control(type='number' step='0.01' v-model='action.ctr' v-bind:disabled='action.type !== "CLICK"')
 
-            td {{ item.log }}
+            td {{ action.log }}
 
             td
               button.btn.btn-info(v-on:click='simulateItem(index)') simulate
@@ -171,9 +168,9 @@
           settings: {
             pv: 0,
             timeout: 0,
-            ctr: 0,
             start: '',
             end: '',
+            interval: 0,
           },
           flow: [],
           updatedAt: '',
@@ -194,6 +191,7 @@
       }
 
       this.hunted = HuntedObject.apply({ id: `${moment().format('x')}` });
+      console.log(this.hunted);
     },
 
     methods: {

@@ -17,7 +17,10 @@
     "rebuild": "npm rebuild --runtime=electron --target=1.8.0 --disturl=https://atom.io/download/atom-shell --abi=51",
     "tsc": "tsc",
     "electron-start": "./node_modules/electron/dist/Electron.app/Contents/MacOS/Electron .",
-    "electron": "npm run tsc && npm run build && npm run electron-start"
+    "electron": "npm run tsc && npm run build && npm run electron-start",
+    "electron-start-debug": "./node_modules/electron/dist/Electron.app/Contents/MacOS/Electron . --debug",
+    "electron-debug": "npm run tsc && npm run build && npm run electron-start-debug",
+    "electron-debug-node": "npm run tsc && npm run electron-start-debug"
 
   },
   "dependencies": {
