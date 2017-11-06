@@ -7,6 +7,7 @@ const CONFIG = require('../../mapper/ElectronIterfaceMapper.json').BROWSING;
 const method = {
   SIMULATE: 'activateSimulate',
   EXECUTE: 'executeBrowsing',
+  RESET: 'resetBrowsing',
 };
 
 type BrowsingManagedObject = {
@@ -102,7 +103,7 @@ class IPCForBrowsing {
 
   deleteCookiesAsy(id: number): void {
     this.manageObj.get(id).win.webContents.session.cookies.get({}, (error, cookies) => {
-      console.log('win.webContents.session.cookies', cookies);
+      // console.log('win.webContents.session.cookies', cookies);
       cookies.forEach(cookie => {
         const protocol = cookie.secure ? 'https://' : 'http://';
         const www = cookie.domain.charAt(0) === '.' ?
@@ -112,8 +113,8 @@ class IPCForBrowsing {
         const path = cookie.path;
         const url = `${protocol}${www}${domain}${path}`;
         this.manageObj.get(id).win.webContents.session.cookies.remove(url, cookie.name, error => {
-          console.log(error);
-          console.log(`delete: ${cookie.name}: ${url}`);
+          // console.log(error);
+          // console.log(`delete: ${cookie.name}: ${url}`);
         });
       });
     });
@@ -129,6 +130,14 @@ class IPCForBrowsing {
     this.manageObj.get(id).win.destroy();
     this.manageObj.delete(id);
   }
+
+  resetBrowsing(): void {
+    console.log(`this.currentFlow: ${JSON.stringify(this.currentFlow)}`, `this.manageObj: ${JSON.stringify(this.manageObj)}`);
+    this.currentFlow = new Array();
+    this.manageObj = new Map();
+    console.log('currentFlow is resetted!!!', this.currentFlow);
+  }
+
 }
 
 export default class IPCForBrowsingObject {

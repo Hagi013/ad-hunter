@@ -61,6 +61,7 @@
         logList: [],
         startFlag: false,
         intervalStartingList: new Map(),
+        inProcessList: new Map(),
       };
     },
 
@@ -85,7 +86,7 @@
       },
 
       goCreatePage() {
-        router.push({ path: 'set-hunter' });
+        router.push({path: 'set-hunter'});
       },
 
       save(htd) {
@@ -95,7 +96,7 @@
       },
 
       edit(id) {
-        router.push({ path: 'set-hunter', query: { id: id }});
+        router.push({path: 'set-hunter', query: {id: id}});
       },
 
       remove(id) {
@@ -115,6 +116,7 @@
         if (!this.startFlag) return;
         if (htd.settings.start === '' || moment(htd.settings.start) > moment()) return;
         let overSecondTimesPVFlag = false;
+        this.inProcessList.set(htd.id, true);
         ElectronClient.executeBrowsing(HuntedObject.createBrowsingTuple(htd), (event, log) => {
           // console.log(log.type, `log.htdId: ${log.htdId} !== htd.id: ${htd.id}`, moment().format('HH:mm:ss.SSS'), htd.url);
           if (log.htdId !== htd.id) return;
@@ -134,16 +136,27 @@
 
           if (log.type.includes('CLICKED')) this.logList[logListIdx].click += 1;
 
+          // メモリ節約のため、現在進行中のブランシングがなければ、Electronのwindowをリセットする
+          this.inProcessList.set(htd.id, false);
+          this.reset();
+
           // PV数の上限がセットされていなければ条件判定せずに無限で行う
           if (emptyCheck(htd.settings.pv)) return;
 
-          if (this.logList[logListIdx].pv >= htd.settings.pv) window.clearInterval(this.intervalStartingList.get(htd.id));
+          if (this.logList[logListIdx].pv >= htd.settings.pv) {
+            window.clearInterval(this.intervalStartingList.get(htd.id));
+            this.intervalStartingList.delete(htd.id);
+          }
         });
       },
 
       stop() {
         this.startFlag = false;
         this.intervalStartingList.forEach(intervalNo => window.clearInterval(intervalNo));
+      },
+
+      reset() {
+        if (Array.from(this.inProcessList.values()).every(b => !b)) ElectronClient.resetBrowsing();
       },
     },
 
