@@ -21,7 +21,11 @@
       "FROMVUE": "executeBrowsing",
       "FROMRENDERER": "executedBrowsing",
       "TOVUE": "executeBrowsingReturn"
+    },
+    "RESET": {
+      "FROMVUE": "resetBrowsing",
+      "FROMRENDERER": "resetedBrowsing",
+      "TOVUE": "resetBrowsingReturn"
     }
-
   }
 }

@@ -23,4 +23,9 @@ export default class ElectronClient {
     ipcRenderer.send(CONFIG.BROWSING.EXECUTE.FROMVUE, tuple);
     ipcRenderer.on(CONFIG.BROWSING.EXECUTE.TOVUE, func);
   }
+
+  static resetBrowsing() {
+    ipcRenderer.send(CONFIG.BROWSING.RESET.FROMVUE);
+    ipcRenderer.removeAllListeners(CONFIG.BROWSING.EXECUTE.TOVUE);
+  }
 }

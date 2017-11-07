@@ -1,4 +1,4 @@
-{
+ {
   "name": "ad-hunter",
   "version": "1.0.0",
   "description": "This is ad-hunter.",
@@ -21,7 +21,6 @@
     "electron-start-debug": "./node_modules/electron/dist/Electron.app/Contents/MacOS/Electron . --debug",
     "electron-debug": "npm run tsc && npm run build && npm run electron-start-debug",
     "electron-debug-node": "npm run tsc && npm run electron-start-debug"
-
   },
   "dependencies": {
     "@types/node": "^8.0.31",
