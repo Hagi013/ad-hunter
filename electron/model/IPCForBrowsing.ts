@@ -133,8 +133,8 @@ class IPCForBrowsing {
 
   resetBrowsing(): void {
     console.log(`this.currentFlow: ${JSON.stringify(this.currentFlow)}`, `this.manageObj: ${JSON.stringify(this.manageObj)}`);
-    this.currentFlow = new Array();
-    this.manageObj = new Map();
+    Array.from(this.manageObj.keys()).forEach(id => this.closeWindow(id));
+    this.currentFlow = this.currentFlow.filter(f => !f);
     console.log('currentFlow is resetted!!!', this.currentFlow);
   }
 
