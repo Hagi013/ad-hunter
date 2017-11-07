@@ -132,17 +132,20 @@
           const logListIdx = this.logList.reduce((prev, l, idx) => htd.id === l.id ? prev + idx : prev + 0, 0);
           // console.log(`htd.id: ${htd.id}`, `logListIdx: ${logListIdx}`, `this.logList[logListIdx].id: ${this.logList[logListIdx].id}`);
 
-          if (log.type.includes('PV')) this.logList[logListIdx].pv += 1;
-
           if (log.type.includes('CLICKED')) this.logList[logListIdx].click += 1;
 
-          // メモリ節約のため、現在進行中のブランシングがなければ、Electronのwindowをリセットする
-          this.inProcessList.set(htd.id, false);
-          this.reset();
+          if (log.type.includes('PV')) {
+            this.logList[logListIdx].pv += 1;
+            // メモリ節約のため、現在進行中のブランシングがなければ、Electronのwindowをリセットする
+            console.log('Reset起動！！', `log.type: ${log.type}`);
+            this.inProcessList.set(htd.id, false);
+            this.reset();
+          }
 
           // PV数の上限がセットされていなければ条件判定せずに無限で行う
           if (emptyCheck(htd.settings.pv)) return;
 
+          // 上限のPV数に達したらIntervalをclear
           if (this.logList[logListIdx].pv >= htd.settings.pv) {
             window.clearInterval(this.intervalStartingList.get(htd.id));
             this.intervalStartingList.delete(htd.id);
@@ -153,6 +156,7 @@
       stop() {
         this.startFlag = false;
         this.intervalStartingList.forEach(intervalNo => window.clearInterval(intervalNo));
+        this.reset();
       },
 
       reset() {

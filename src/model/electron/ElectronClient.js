@@ -26,5 +26,6 @@ export default class ElectronClient {
 
   static resetBrowsing() {
     ipcRenderer.send(CONFIG.BROWSING.RESET.FROMVUE);
+    ipcRenderer.removeAllListeners(CONFIG.BROWSING.EXECUTE.TOVUE);
   }
 }
