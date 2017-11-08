@@ -1,4 +1,3 @@
-/* eslint-disable consistent-return */
 import moment from 'moment';
 import BaseModel from './BaseModel';
 import { ActionObject } from './Action';
@@ -52,15 +51,15 @@ export class HuntedObject {
   }
 
   static save(hunted) {
-    if (emptyCheck(hunted)) return;
-    const savingHunted = Try.apply(this.createItemForSave(hunted));
+    if (emptyCheck(hunted)) return null;
+    const savingHunted = Try.apply(() => this.createItemForSave(hunted));
 
-    if (savingHunted.isFailure()) return ResultClass('Exception', `Hunted CreateItemForSave failed!! ${savingHunted}`);
+    if (savingHunted.isFailure()) return new ResultClass('Exception', `Hunted CreateItemForSave failed!! ${savingHunted}`);
 
-    const result = Try.apply(HuntedRepository.upsert(savingHunted.get()));
-    if (result.isFailure()) return ResultClass('Exception', `HuntedRepository.upsert failed!! ${result}`);
+    const result = Try.apply(() => HuntedRepository.upsert(savingHunted.get()));
+    if (result.isFailure()) return new ResultClass('Exception', `HuntedRepository.upsert failed!! ${result}`);
 
-    return ResultClass('Success', 'Save Successed');
+    return new ResultClass('Success', 'Save Successed');
   }
 
   static createItemForSave(hunted) {
@@ -83,33 +82,33 @@ export class HuntedObject {
   }
 
   static getAll() {
-    const fromStorage = Try.apply(HuntedRepository.findAll());
-    if (fromStorage.isFailure()) return ResultClass('Exception', `HuntedRepository.findAll failed!! ${fromStorage}`);
+    const fromStorage = Try.apply(() => HuntedRepository.findAll());
+    if (fromStorage.isFailure()) return new ResultClass('Exception', `HuntedRepository.findAll failed!! ${JSON.stringify(fromStorage)}`);
 
-    const triedHunted = Try.apply(fromStorage.get().map(h => this.apply(h)));
-    if (fromStorage.isFailure()) return ResultClass('Exception', `HuntedObject.apply failed!! ${triedHunted}`);
+    const triedHunted = Try.apply(() => fromStorage.get().map(h => this.apply(h)));
+    if (triedHunted.isFailure()) return new ResultClass('Exception', `HuntedObject.apply failed!! ${JSON.stringify(triedHunted)}`);
 
     if (triedHunted.isSuccess()) return triedHunted.get();
     return ResultClass('Exception', 'getAll failed');
   }
 
   static getById(id) {
-    const fromStorage = Try.apply(HuntedRepository.findById(id));
-    if (fromStorage.isFailure()) return ResultClass('Exception', `HuntedRepository.findById failed!! ${fromStorage}`);
+    const fromStorage = Try.apply(() => HuntedRepository.findById(id));
+    if (fromStorage.isFailure()) return new ResultClass('Exception', `HuntedRepository.findById failed!! ${JSON.stringify(fromStorage)}`);
 
-    const triedHunted = Try.apply(this.apply(fromStorage.get()));
-    if (fromStorage.isFailure()) return ResultClass('Exception', `HuntedObject.apply failed!! ${triedHunted}`);
+    const triedHunted = Try.apply(() => this.apply(fromStorage.get()));
+    if (triedHunted.isFailure()) return new ResultClass('Exception', `HuntedObject.apply failed!! ${JSON.stringify(triedHunted)}`);
 
     if (triedHunted.isSuccess()) return triedHunted.get();
-    return ResultClass('Exception', 'getById failed');
+    return new ResultClass('Exception', 'getById failed');
   }
 
   static remove(id) {
-    const htdById = Try.apply(HuntedRepository.findById(id));
-    if (htdById.isFailure()) return ResultClass('Exception', `HuntedRepository.findById failed!! ${htdById}`);
-    const res = Try.apply(HuntedRepository.remove(id));
-    if (res.isFailure()) return ResultClass('Exception', `HuntedRepository.remove failed!! ${res}`);
-    return null;
-  }
+    const htdById = Try.apply(() => HuntedRepository.findById(id));
+    if (htdById.isFailure()) return new ResultClass('Exception', `HuntedRepository.findById failed!! ${JSON.stringify(htdById)}`);
 
+    const res = Try.apply(() => HuntedRepository.remove(id));
+    if (res.isFailure()) return new ResultClass('Exception', `HuntedRepository.remove failed!! ${JSON.stringify(res)}`);
+    return new ResultClass('Exception', 'remove failed');
+  }
 }

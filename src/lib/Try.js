@@ -44,9 +44,10 @@ class Failure extends Try {
 }
 
 export default class TryObject {
-  static apply(obj) {
+  static apply(func) {
     try {
-      return new Success(obj);
+      const data = func();
+      return new Success(data);
     } catch (e) {
       return new Failure(e);
     }
