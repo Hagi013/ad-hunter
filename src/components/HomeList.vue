@@ -2,8 +2,16 @@
 
   div.homeList
     .container-fluid
+      .form-group.row
+        .col
+          nav.navbar.navbar-toggleable-md.navbar-light.bg-faded
+            .navbar-brand: h1 Welcome to Ad-Hunter!!!
+            // div.collapse.navbar-collapse
+            ul.navbar-nav.mr-auto
+              li.nav-item.move
+                router-link.nav-link(to='/user-agent' tag='a') UserAgent
+
       .row
-        h1 Welcome to Ad-Hunter!!!
         tabel.table.table-hover
           thead
             th No

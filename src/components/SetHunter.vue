@@ -242,16 +242,12 @@
 
       simulateItem(idx) {
         if (emptyCheck(this.hunted.url)) return;
-        const SimulateTupleType = new Tuple(String, ActionObject.apply().constructor);
-        const simulateTuple = new SimulateTupleType(this.hunted.url, ActionObject.apply(this.hunted.flow[idx]));
-        ElectronClient.simulateAction(simulateTuple);
+        ElectronClient.simulateAction(HuntedObject.createBrowsingTuple(this.hunted, idx));
       },
 
       start() {
         if (emptyCheck(this.hunted.url)) return;
-        const ExecuteBrowsingTupleType = new Tuple(String, Array);
-        const executeBrowsingTuple = new ExecuteBrowsingTupleType(this.hunted.url, HuntedObject.apply(this.hunted).flow);
-        ElectronClient.executeBrowsing(executeBrowsingTuple, (event, log) => {
+        ElectronClient.executeBrowsing(HuntedObject.createBrowsingTuple(this.hunted), (event, log) => {
           console.log('log', log);
         });
       },
