@@ -45,7 +45,10 @@ class IPCForBrowsing {
    */
   executeBrowsing(event, tuple): void {
     const url = tuple._1;
-    const flow = tuple._2;
+    const flow = tuple._2._1;
+    const uaList = tuple._2._2;
+    const usingUA = uaList[Math.round((uaList.length - 1) * Math.random())].value;
+    console.log(`uusingUA : ${usingUA}`);
 
     const currentProcessCheck = this.currentFlow.every(t => !(url === t._1 && JSON.stringify(flow) === JSON.stringify(t._2)));
     if (!currentProcessCheck) return;
@@ -53,7 +56,7 @@ class IPCForBrowsing {
     this.currentFlow.push(tuple);
 
     const htdId = flow[0].id.split('#')[0];
-    const id = this.createWindow(event, url, htdId);
+    const id = this.createWindow(event, url, htdId, usingUA);
 
     BrowsingExecutor.executeBrowsing(this.manageObj.get(id), flow)
     .then(() => {
@@ -78,7 +81,7 @@ class IPCForBrowsing {
     BrowsingExecutor.activateSimulate(this.manageObj.get(id), action);
   }
 
-  createWindow(event, url, htdId): number {
+  createWindow(event, url, htdId, userAgent=''): number {
     let win = new BrowserWindow({
       // nodeIntegration: 'iframe',
       webPreferences: {webSecurity: false},
@@ -86,7 +89,7 @@ class IPCForBrowsing {
       width: 1500,
       height: 900 });
 
-    win.loadURL(url);
+    win.loadURL(url, { userAgent });
 
     win.on('closed', () => {
       win = null;
@@ -113,7 +116,7 @@ class IPCForBrowsing {
         const path = cookie.path;
         const url = `${protocol}${www}${domain}${path}`;
         this.manageObj.get(id).win.webContents.session.cookies.remove(url, cookie.name, error => {
-          // console.log(error);
+          console.error(error);
           // console.log(`delete: ${cookie.name}: ${url}`);
         });
       });

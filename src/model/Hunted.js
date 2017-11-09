@@ -2,6 +2,7 @@ import moment from 'moment';
 import BaseModel from './BaseModel';
 import { ActionObject } from './Action';
 import { SettingsObject } from './Settings';
+import { UserAgentObject } from './UserAgent';
 import HuntedRepository from '../lib/repository/HuntedRepository';
 import { notEmptyCheck, arrayCheck, emptyCheck, notEmptyObjCheck } from '../lib/utils/CheckUtils';
 import Try from '../lib/Try';
@@ -42,12 +43,14 @@ export class HuntedObject {
   }
 
   static createBrowsingTuple(hunted, idx) {
-    const ExecuteBrowsingTupleType = new Tuple(String, Array);
-    console.log(idx);
-    if (idx) {
-      return new ExecuteBrowsingTupleType(hunted.url, [ActionObject.apply(hunted.flow[idx])]);
+    if (notEmptyCheck(idx)) {
+      const SimulateTupleType = new Tuple(String, ActionObject.apply().constructor);
+      return new SimulateTupleType(hunted.url, ActionObject.apply(hunted.flow[idx]));
     }
-    return new ExecuteBrowsingTupleType(hunted.url, HuntedObject.apply(hunted).flow);
+    const BrowsingSetType = new Tuple(Array, Array);
+    const ExecuteBrowsingTupleType = new Tuple(String, BrowsingSetType);
+    return new ExecuteBrowsingTupleType(hunted.url,
+      new BrowsingSetType(HuntedObject.apply(hunted).flow, UserAgentObject.getAll()));
   }
 
   static save(hunted) {
