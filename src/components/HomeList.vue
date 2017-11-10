@@ -45,10 +45,11 @@
               td: button.btn.btn-info(type='button' v-on:click='edit(hunted.id)') edit
               td: button.btn.btn-danger(type='button' v-on:click='remove(hunted.id)') remove
 
-        .col.text-right
-          button.btn.btn-primary(type='button' v-on:click='goCreatePage') create new
-          button.btn.btn-success(type='button' v-on:click='ready') ready
-          button.btn.btn-danger(type='button' v-on:click='stop') stop
+      .pull-right
+        button.btn.btn-primary(type='button' v-on:click='goCreatePage') create new
+        button.btn.btn-success(type='button' v-on:click='ready') ready
+        button.btn.btn-danger(type='button' v-on:click='stop') stop
+        i.clickable.scale.fa.fa-download(aria-hidden="true" v-on:click='download')
 
 </template>
 
@@ -59,6 +60,7 @@
   import { HuntedObject } from '../model/Hunted';
   import ElectronClient from '../model/electron/ElectronClient';
   import { emptyCheck } from '../lib/utils/CheckUtils';
+  import { exportJSONFile } from '../lib/utils/FileIO';
 
   export default {
     name: 'homeList',
@@ -170,6 +172,10 @@
       reset() {
         if (Array.from(this.inProcessList.values()).every(b => !b)) ElectronClient.resetBrowsing();
       },
+
+      download() {
+        exportJSONFile(HuntedObject.getAll());
+      },
     },
 
     computed: {
@@ -193,5 +199,8 @@
     max-width: none;
     table-layout: fixed;
     word-wrap: break-word;
+  }
+  .clickable{
+    cursor: pointer;
   }
 </style>
