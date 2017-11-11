@@ -1,12 +1,12 @@
 import { getItemFromStorage, upsertItemToStorage } from '../localstorage/localstorage';
 import { notArrayCheck } from '../utils/CheckUtils';
-import Result from '../tuple/Result';
+import Exception from '../Exception';
 
 
 export default class BaseRepository {
 
   static repoName() {
-    throw new Result('Error', 'Not Implemented Error');
+    throw new Exception('Not Implemented Error');
   }
 
   static findAll() {
