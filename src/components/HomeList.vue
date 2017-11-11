@@ -11,7 +11,18 @@
               li.nav-item.move
                 router-link.nav-link(to='/user-agent' tag='a') UserAgent
 
+      .form-group.row
+        label.col-2.col-form-label(for='import-file'): h5 ImportSettings
+        .col-4
+          .row
+          input#import-file.col-8(type='file' ref='file' v-on:change='selectImportFile')
+          button.col-2.btn.btn-warning(v-on:click='saveImportedFile') save
+
+        label.col-2.col-form-label(for='export-settings'): h5 EmportSettings
+        i#export-settings.col-3.clickable.scale.fa.fa-download(aria-hidden="true" v-on:click='download')
+
       .row
+
         tabel.table.table-hover
           thead
             th No
@@ -45,10 +56,10 @@
               td: button.btn.btn-info(type='button' v-on:click='edit(hunted.id)') edit
               td: button.btn.btn-danger(type='button' v-on:click='remove(hunted.id)') remove
 
-        .col.text-right
-          button.btn.btn-primary(type='button' v-on:click='goCreatePage') create new
-          button.btn.btn-success(type='button' v-on:click='ready') ready
-          button.btn.btn-danger(type='button' v-on:click='stop') stop
+      .pull-right
+        button.btn.btn-primary(type='button' v-on:click='goCreatePage') create new
+        button.btn.btn-success(type='button' v-on:click='ready') ready
+        button.btn.btn-danger(type='button' v-on:click='stop') stop
 
 </template>
 
@@ -59,6 +70,7 @@
   import { HuntedObject } from '../model/Hunted';
   import ElectronClient from '../model/electron/ElectronClient';
   import { emptyCheck } from '../lib/utils/CheckUtils';
+  import { exportJSONFile, importJSONFile } from '../lib/utils/FileIO';
 
   export default {
     name: 'homeList',
@@ -70,6 +82,7 @@
         startFlag: false,
         intervalStartingList: new Map(),
         inProcessList: new Map(),
+        importedHtdList: [],
       };
     },
 
@@ -170,6 +183,26 @@
       reset() {
         if (Array.from(this.inProcessList.values()).every(b => !b)) ElectronClient.resetBrowsing();
       },
+
+      async selectImportFile(e) {
+        const files = e.target.files || e.dataTransfer.files;
+        if (!files.length) return;
+        const htdListObj = await importJSONFile(files[0]);
+        this.importedHtdList = htdListObj;
+        // console.log(`this.importedHtdList: ${JSON.stringify(this.importedHtdList)}`);
+      },
+
+      saveImportedFile() {
+        if (!Array.isArray(this.importedHtdList) || !this.importedHtdList.length) return;
+        this.importedHtdList.forEach(htd => {
+          HuntedObject.save(htd);
+        });
+        this.init();
+      },
+
+      download() {
+        exportJSONFile(HuntedObject.getAll());
+      },
     },
 
     computed: {
@@ -193,5 +226,8 @@
     max-width: none;
     table-layout: fixed;
     word-wrap: break-word;
+  }
+  .clickable{
+    cursor: pointer;
   }
 </style>
