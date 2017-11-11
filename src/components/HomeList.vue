@@ -189,7 +189,7 @@
         if (!files.length) return;
         const htdListObj = await importJSONFile(files[0]);
         this.importedHtdList = htdListObj;
-        console.log(`this.importedHtdList: ${JSON.stringify(this.importedHtdList)}`);
+        // console.log(`this.importedHtdList: ${JSON.stringify(this.importedHtdList)}`);
       },
 
       saveImportedFile() {

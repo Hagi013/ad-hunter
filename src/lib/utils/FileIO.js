@@ -11,9 +11,9 @@ export const exportJSONFile = (obj) => {
 
 export const importJSONFile = file => new Promise((resolved, rejected) => {
   const reader = new FileReader();
-  reader.onload = (onloadedFile) => {
+  reader.onload = (loadedFile) => {
     try {
-      const obj = JSON.parse(onloadedFile.target.result);
+      const obj = JSON.parse(loadedFile.target.result);
       resolved(obj);
     } catch (e) {
       console.error(e);
