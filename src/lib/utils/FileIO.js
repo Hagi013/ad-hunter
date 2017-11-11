@@ -9,4 +9,16 @@ export const exportJSONFile = (obj) => {
   console.log(`link: ${link}`);
 };
 
-export const importJSONFile = (obj) => { console.log(obj); };
+export const importJSONFile = file => new Promise((resolved, rejected) => {
+  const reader = new FileReader();
+  reader.onload = (onloadedFile) => {
+    try {
+      const obj = JSON.parse(onloadedFile.target.result);
+      resolved(obj);
+    } catch (e) {
+      console.error(e);
+      rejected();
+    }
+  };
+  reader.readAsText(file);
+});
