@@ -18,7 +18,7 @@
           input#import-file.col-8(type='file' ref='file' v-on:change='selectImportFile')
           button.col-2.btn.btn-warning(v-on:click='saveImportedFile') save
 
-        label.col-2.col-form-label(for='export-settings'): h5 EmportSettings
+        label.col-2.col-form-label(for='export-settings'): h5 ExportSettings
         i#export-settings.col-3.clickable.scale.fa.fa-download(aria-hidden="true" v-on:click='download')
 
       .row
@@ -151,7 +151,7 @@
 
           // 操作対象(htd)のログの順番を取得(Listの中の対象のObjectを取得するのにidキーが必要となるが、うまく取得する方法がなかったので、reduceで実装)
           const logListIdx = this.logList.reduce((prev, l, idx) => htd.id === l.id ? prev + idx : prev + 0, 0);
-          // console.log(`htd.id: ${htd.id}`, `logListIdx: ${logListIdx}`, `this.logList[logListIdx].id: ${this.logList[logListIdx].id}`);
+          console.log(`htd.id: ${htd.id}`, `logListIdx: ${logListIdx}`, `this.logList[logListIdx].id: ${this.logList[logListIdx].id}`);
 
           if (log.type.includes('CLICKED')) this.logList[logListIdx].click += 1;
 

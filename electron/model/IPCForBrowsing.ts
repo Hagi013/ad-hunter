@@ -62,6 +62,7 @@ class IPCForBrowsing {
     .then(() => {
       // console.log('終了！');
       Sender.sendBrowsingPVEvent(event, htdId);
+      // ToDo あとで消す
       this.finishBrowsing(tuple, id);
     })
     .catch(() => {
