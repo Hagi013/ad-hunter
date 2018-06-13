@@ -72,6 +72,7 @@ export default class BrowsingExecutor {
         });
       })
       .then(() => { // クリックする
+        // TODO ここはPromiseいらない気がするなーーーー
         return new Promise(resolve => {
           Sender.sendBrowsingClickEvent(bmo.event, bmo.htdId);
           resolve();
