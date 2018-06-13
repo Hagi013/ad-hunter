@@ -60,10 +60,12 @@
             td {{index+1}}
 
             td
-              select.form-control(v-model='action.type' v-on:change='decideAction(index)')
-                option(value='CLICK') CLICK
-                option(value='SCROLL') SCROLL
-                option(value='OPERATION') OPERATION
+              tr: td Operation
+              tr: td
+                  select.form-control(v-model='action.type' v-on:change='decideAction(index)')
+                    option(value='CLICK') CLICK
+                    option(value='SCROLL') SCROLL
+                    option(value='OPERATION') OPERATION
 
             td(v-bind:disabled='action.type !== "CLICK"')
               tr
