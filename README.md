@@ -7,9 +7,24 @@
 ``` bash
 # install dependencies
 npm install
+```
 
-# serve with hot reload at localhost:8080
-npm run dev
+## rebuild robot.js
+1. Edit rebuild scripts in package.json
+1. You refer [this](http://robotjs.io/docs/electron)
+1. rebuild robotjs
+
+```
+npm run rebuild
+```
+
+## start & build electron
+```
+npm run electron
+```
+
+## others
+```
 
 # build for production with minification
 npm run build
