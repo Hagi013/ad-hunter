@@ -11,6 +11,17 @@
               li.nav-item.move
                 router-link.nav-link(to='/' tag='a') ←
 
+      .form-group.row
+        label.col-2.col-form-label(for='import-file'): h5 ImportSettings
+        .col-4
+          .row
+          input#import-file.col-8(type='file' ref='file' v-on:change='selectImportFile')
+          button.col-2.btn.btn-warning(v-on:click='saveImportedFile') save
+
+        label.col-2.col-form-label(for='export-settings'): h5 ExportSettings
+        i#export-settings.col-3.clickable.scale.fa.fa-download(aria-hidden="true" v-on:click='download')
+
+
 
       .form-group.row
         label.col-1.col-form-label(for='label') Label
@@ -48,6 +59,7 @@
   import { emptyCheck } from '../lib/utils/CheckUtils';
   import { UserAgentObject } from '../model/UserAgent';
   import ResultClass from '../lib/tuple/Result';
+  import { exportJSONFile, importJSONFile } from '../lib/utils/FileIO';
 
   export default {
     name: 'userAgent',
@@ -57,6 +69,7 @@
         label: '',
         value: '',
         userAgentList: [],
+        importedUserAgentList: [],
       };
     },
 
@@ -91,6 +104,27 @@
         UserAgentObject.remove(id);
         this.init();
       },
+
+      download() {
+        exportJSONFile(UserAgentObject.getAll());
+      },
+
+      async selectImportFile(e) {
+        console.log(e);
+        const files = e.target.files || e.dataTransfer.files;
+        if (!files.length) return;
+        const uaListObj = await importJSONFile(files[0]);
+        this.importedUserAgentList = uaListObj;
+      },
+
+      saveImportedFile() {
+        if (!Array.isArray(this.importedUserAgentList) || !this.importedUserAgentList.length) return;
+        this.importedUserAgentList.forEach(ua => {
+          UserAgentObject.save(ua);
+        });
+        this.init();
+      },
+
     },
 
     computed: {
