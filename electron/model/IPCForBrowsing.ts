@@ -48,7 +48,7 @@ class IPCForBrowsing {
     const flow = tuple._2._1;
     const uaList = tuple._2._2;
     const usingUA = uaList[Math.round((uaList.length - 1) * Math.random())].value;
-    console.log(`uusingUA : ${usingUA}`);
+    console.log(`usingUA : ${usingUA}`);
 
     const currentProcessCheck = this.currentFlow.every(t => !(url === t._1 && JSON.stringify(flow) === JSON.stringify(t._2)));
     if (!currentProcessCheck) return;
@@ -76,21 +76,32 @@ class IPCForBrowsing {
   */
   activateSimulate(event, tuple): void {
     const url = tuple._1;
-    const action = tuple._2;
+    // const action = tuple._2;
+    const action = tuple._2._1;
     const htdId = action.id.split('#')[0];
-    const id = this.createWindow(event, url, htdId);
+
+    const uaList = tuple._2._2;
+    const usingUA = uaList[Math.round((uaList.length - 1) * Math.random())].value;
+    console.log(`usingUA In Simulating : ${usingUA}`);
+
+    const id = this.createWindow(event, url, htdId, usingUA);
     BrowsingExecutor.activateSimulate(this.manageObj.get(id), action);
   }
 
   createWindow(event, url, htdId, userAgent=''): number {
     let win = new BrowserWindow({
       // nodeIntegration: 'iframe',
-      webPreferences: {webSecurity: false},
+      // webPreferences: { webSecurity: false, devTools: false },
+      webPreferences: { webSecurity: false, devTools: true, disableBlinkFeatures: 'BlockCredentialedSubresources', },
       frame: false,
       width: 1500,
-      height: 900 });
+      height: 900,
+    });
 
-    win.loadURL(url, { userAgent });
+    let extraHeaders = '';
+    // if (url === 'http://192.168.12.1/index.html') extraHeaders =  'Authorization: Basic Om5ldy15YW1haGE=';
+
+    win.loadURL(url, { userAgent, extraHeaders });
 
     win.on('closed', () => {
       win = null;

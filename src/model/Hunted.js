@@ -43,8 +43,12 @@ export class HuntedObject extends BaseStoreModel {
 
   static createBrowsingTuple(hunted, idx) {
     if (notEmptyCheck(idx)) {
-      const SimulateTupleType = new Tuple(String, ActionObject.apply().constructor);
-      return new SimulateTupleType(hunted.url, ActionObject.apply(hunted.flow[idx]));
+      // const SimulateTupleType = new Tuple(String, ActionObject.apply().constructor);
+      const SimulatingSetType = new Tuple(ActionObject.apply().constructor, Array);
+      const SimulateTupleType = new Tuple(String, SimulatingSetType);
+      // return new SimulateTupleType(hunted.url, ActionObject.apply(hunted.flow[idx]));
+      return new SimulateTupleType(hunted.url,
+        new SimulatingSetType(ActionObject.apply(hunted.flow[idx]), UserAgentObject.getAll()));
     }
     const BrowsingSetType = new Tuple(Array, Array);
     const ExecuteBrowsingTupleType = new Tuple(String, BrowsingSetType);

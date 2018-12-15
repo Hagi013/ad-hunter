@@ -37,11 +37,12 @@ class IPCForSetting {
   createWindow(url): void {
     this.win = new BrowserWindow({
       // nodeIntegration: 'iframe',
-      webPreferences: {webSecurity: false},
+      webPreferences: { webSecurity: false, devTools: false, disableBlinkFeatures: 'BlockCredentialedSubresources' },
       width: 1500,
       height: 900 });
 
     this.win.loadURL(url);
+    // this.win.loadURL(url, { userAgent: "Mozilla/5.0 (Linux; Android 5.1.1; SM-J111M Build/LMY47V) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Mobile Safari/537.36" });
 
     this.win.on('closed', () => {
       this.win = null;
