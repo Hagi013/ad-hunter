@@ -238,10 +238,8 @@
 
       searchItem(idx) {
         if (emptyCheck(this.hunted.url)) return;
-        // const SettingTupleType = new Tuple(String, String);
-        // const settingTuple = new SettingTupleType(this.hunted.flow[idx].id, this.hunted.url);
         const SettingTupleType = new Tuple(String, Object);
-        const settingTuple = new SettingTupleType(this.hunted.flow[idx].id, { url: this.hunted.url, userAgents: this.hunted.useUAList });
+        const settingTuple = new SettingTupleType(this.hunted.flow[idx].id, { url: this.hunted.url, userAgents: this.hunted.flow[idx].selectedUserAgents });
         ElectronClient.searchItem(settingTuple, (event, settings) => {
           if (settings.actionId !== this.hunted.flow[idx].id) return;
           this.hunted.flow[idx].item = ElementObject.apply(settings.settings);
@@ -250,10 +248,8 @@
 
       scrollScreen(idx) {
         if (emptyCheck(this.hunted.url)) return;
-        // const SettingTupleType = new Tuple(String, String);
-        // const settingTuple = new SettingTupleType(this.hunted.flow[idx].id, this.hunted.url);
-        const SettingTupleType = new Tuple(String, String);
-        const settingTuple = new SettingTupleType(this.hunted.flow[idx].id, { url: this.hunted.url, userAgents: this.hunted.useUAList });
+        const SettingTupleType = new Tuple(String, Object);
+        const settingTuple = new SettingTupleType(this.hunted.flow[idx].id, { url: this.hunted.url, userAgents: this.hunted.flow[idx].selectedUserAgents });
         ElectronClient.scrollScreen(settingTuple, (event, settings) => {
           if (settings.actionId !== this.hunted.flow[idx].id) return;
           this.hunted.flow[idx].scroll = ElementObject.apply(settings.settings);
