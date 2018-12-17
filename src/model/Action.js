@@ -1,7 +1,8 @@
 import BaseModel from './BaseModel';
 import { ElementObject } from './Element';
 import { OperationObject } from './Operation';
-import { emptyCheck, notEmptyCheck, notEmptyObjCheck } from '../lib/utils/CheckUtils';
+import { UserAgentObject } from './UserAgent';
+import { emptyCheck, notEmptyCheck, notEmptyObjCheck, arrayCheck } from '../lib/utils/CheckUtils';
 import { actionTypeCheck } from './type/HuntedActionType';
 import Exception from '../lib/Exception';
 
@@ -15,6 +16,8 @@ export default class Action extends BaseModel {
     this.scroll = ElementObject.apply(data.scroll);
     this.operation = OperationObject.apply(data.operation);
     this.ctr = notEmptyCheck(data.ctr) ? Number(data.ctr) : '';
+    this.selectedUserAgents = arrayCheck(data.selectedUserAgents) ?
+      data.selectedUserAgents.map(ua => UserAgentObject.apply(ua)) : [];
   }
 }
 
@@ -35,6 +38,7 @@ export class ActionObject {
       scroll: '',
       operation: '',
       ctr: '',
+      selectedUserAgents: '',
     };
   }
 
@@ -46,6 +50,8 @@ export class ActionObject {
       scroll: ElementObject.createItemForSave(action.scroll),
       operation: OperationObject.createItemForSave(action.operation),
       ctr: Number(action.ctr),
+      selectedUserAgents: arrayCheck(action.selectedUserAgents) ?
+        action.selectedUserAgents.map(ua => UserAgentObject.apply(ua)) : [],
     };
     this.validateCheck(forSaving);
     return this.apply(forSaving);

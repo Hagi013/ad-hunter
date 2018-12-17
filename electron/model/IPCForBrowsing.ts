@@ -14,6 +14,7 @@ type BrowsingManagedObject = {
   win: BrowserWindow;
   event: any;
   htdId: string;
+  userAgent: string;
 }
 
 class IPCForBrowsing {
@@ -107,7 +108,7 @@ class IPCForBrowsing {
       win = null;
     });
 
-    this.registerManageObj(win.id, {win ,event, htdId});
+    this.registerManageObj(win.id, { win ,event, htdId, userAgent });
     this.deleteCookiesAsy(win.id);
     return win.id;
   }
@@ -117,6 +118,7 @@ class IPCForBrowsing {
   }
 
   deleteCookiesAsy(id: number): void {
+    console.log(`this.manageObj.get(id).userAgent: ${this.manageObj.get(id).userAgent}`);
     this.manageObj.get(id).win.webContents.session.cookies.get({}, (error, cookies) => {
       // console.log('win.webContents.session.cookies', cookies);
       cookies.forEach(cookie => {
@@ -127,10 +129,15 @@ class IPCForBrowsing {
         const domain = cookie.domain;
         const path = cookie.path;
         const url = `${protocol}${www}${domain}${path}`;
-        this.manageObj.get(id).win.webContents.session.cookies.remove(url, cookie.name, error => {
-          console.error(error);
-          // console.log(`delete: ${cookie.name}: ${url}`);
-        });
+        try {
+          this.manageObj.get(id).win.webContents.session.cookies.remove(url, cookie.name, error => {
+            console.error(error);
+            // console.log(`delete: ${cookie.name}: ${url}`);
+          });
+        } catch (e) {
+          console.log('Browsingをしていないため、cookieの削除ができなかった。');
+          console.log(e);
+        }
       });
     });
   }

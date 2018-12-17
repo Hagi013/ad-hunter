@@ -40,6 +40,14 @@
         .col-4
           input#pv.form-control(type='number' v-model='hunted.settings.pv')
 
+      //- UserAgent
+      .form-group.row
+        label.col-1.col-form-label(for='interval') UserAgent
+        .col-11
+          select#useragent.form-control(v-model='hunted.useUAList' v-on:change='checkUserAgent()' multiple)
+            <!--option(v-bind:value='') Choose UserAgent-->
+            option(v-for='(userAgent, index) in userAgentAll' v-bind:value='userAgent') {{ userAgent.label }}
+
       hr
 
       //----- Flow -----
@@ -47,18 +55,22 @@
       //- Flow Table
       tabel.table.table-hover.table-responsive
         thead
-          th No
-          th Type
+          th
+            tr No
+            tr User Agent
+          th
+            tr Type
+            tr CTR
           th Target
           th Scroll
           th Operation
-          th CTR
-          th Simulate
-          th Remove
+          th User Agent
+
         tbody
           tr(v-for='(action, index) in hunted.flow')
             td {{index+1}}
 
+            //- SELECT OPERATION
             td
               tr: td Operation
               tr: td
@@ -66,7 +78,10 @@
                     option(value='CLICK') CLICK
                     option(value='SCROLL') SCROLL
                     option(value='OPERATION') OPERATION
+              tr: td
+                  input.form-control(type='number' step='0.01' v-model='action.ctr' v-bind:disabled='action.type !== "CLICK"')
 
+            //- CLICK
             td(v-bind:disabled='action.type !== "CLICK"')
               tr
                 td Page Offset X
@@ -93,6 +108,7 @@
                 td Event Class
                 td: input(v-model='action.item.eventClass')
 
+            //- SCROLL
             td(v-bind:disabled='action.type !== "SCROLL"')
               tr
                 td Page Overall X
@@ -107,6 +123,7 @@
                 td Event Class
                 td: input(v-model='action.scroll.eventClass')
 
+            //- Operation
             td
               tr.pb-2
                 select.form-control(v-model='action.operation.opType' v-bind:disabled='action.type !== "OPERATION"')
@@ -120,14 +137,17 @@
               tr(v-if='action.operation.opType ===  "CUSTOM"')
                 textarea(rows=2 v-model='action.operation.funcStr' v-on:change='decideOperation(index)' v-bind:disabled='action.type !== "OPERATION"')
 
+            //- User Agent
             td
-              input.form-control(type='number' step='0.01' v-model='action.ctr' v-bind:disabled='action.type !== "CLICK"')
+              select.form-control(v-model='action.selectedUserAgents' multiple)
+                option(v-for='userAgent in hunted.useUAList' v-bind:value='userAgent') {{ userAgent.label }}
 
             td
-              button.btn.btn-info(v-on:click='simulateItem(index)') simulate
-
-            td
-              button.btn.btn-danger(v-on:click='removeFlowItem(index)') remove
+              tr
+                button.btn.btn-info(v-on:click='simulateItem(index)') simulate
+              br
+              tr
+                button.btn.btn-danger(v-on:click='removeFlowItem(index)') remove
 
       .form-group.row
         .col-11.text-center
@@ -148,6 +168,7 @@
   import { ActionObject } from '../model/Action';
   import { ElementObject} from '../model/Element';
   import { OperationObject } from '../model/Operation';
+  import { UserAgentObject } from '../model/UserAgent';
   import { CLICK, SCROLL, OPERATION } from '../model/type/HuntedActionType';
   import { BACK, FORWARD, WAIT, CUSTOM } from '../model/type/HuntedOperationType';
   import ElectronClient from '../model/electron/ElectronClient';
@@ -172,6 +193,7 @@
             interval: 0,
           },
           flow: [],
+          useUAList: [],
           updatedAt: '',
           description: '',
         },
@@ -179,11 +201,13 @@
           CLICK: 'searchItem',
           SCROLL: 'scrollScreen',
         },
+        userAgentAll: [],
       };
     },
 
     mounted() {
       console.log('this.$route.query', this.$route.query);
+      this.userAgentAll = UserAgentObject.getAll();
       if (this.$route.query.id) {
         this.hunted = HuntedObject.getById(this.$route.query.id);
         return;
@@ -195,8 +219,12 @@
 
     methods: {
 
+      checkUserAgent() {
+        console.log(JSON.stringify(this.hunted.useUAList));
+      },
+
       addFlowItem() {
-        this.hunted.flow.push(ActionObject.apply({id: `${this.hunted.id}#${this.hunted.flow.length + 1}`}));
+        this.hunted.flow.push(ActionObject.apply({ id: `${this.hunted.id}#${this.hunted.flow.length + 1}`, selectedUserAgents: this.hunted.useUAList }));
       },
 
       removeFlowItem(idx) {
@@ -210,8 +238,10 @@
 
       searchItem(idx) {
         if (emptyCheck(this.hunted.url)) return;
-        const SettingTupleType = new Tuple(String, String);
-        const settingTuple = new SettingTupleType(this.hunted.flow[idx].id, this.hunted.url);
+        // const SettingTupleType = new Tuple(String, String);
+        // const settingTuple = new SettingTupleType(this.hunted.flow[idx].id, this.hunted.url);
+        const SettingTupleType = new Tuple(String, Object);
+        const settingTuple = new SettingTupleType(this.hunted.flow[idx].id, { url: this.hunted.url, userAgents: this.hunted.useUAList });
         ElectronClient.searchItem(settingTuple, (event, settings) => {
           if (settings.actionId !== this.hunted.flow[idx].id) return;
           this.hunted.flow[idx].item = ElementObject.apply(settings.settings);
@@ -220,8 +250,10 @@
 
       scrollScreen(idx) {
         if (emptyCheck(this.hunted.url)) return;
+        // const SettingTupleType = new Tuple(String, String);
+        // const settingTuple = new SettingTupleType(this.hunted.flow[idx].id, this.hunted.url);
         const SettingTupleType = new Tuple(String, String);
-        const settingTuple = new SettingTupleType(this.hunted.flow[idx].id, this.hunted.url);
+        const settingTuple = new SettingTupleType(this.hunted.flow[idx].id, { url: this.hunted.url, userAgents: this.hunted.useUAList });
         ElectronClient.scrollScreen(settingTuple, (event, settings) => {
           if (settings.actionId !== this.hunted.flow[idx].id) return;
           this.hunted.flow[idx].scroll = ElementObject.apply(settings.settings);
