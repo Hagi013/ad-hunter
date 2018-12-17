@@ -26,7 +26,6 @@ class IPCForSetting {
     ipcMain.on(CONFIG[KEY]['FROMVUE'], (event, tuple) => {
       this.event = event;
       this.actionId = tuple._1;
-      // const url = tuple._2;
       const browsing = tuple._2;
       const url = browsing.url;
       const userAgent = browsing.userAgents[Math.round((browsing.userAgents.length - 1) * Math.random())].value;
@@ -66,9 +65,13 @@ class IPCForSetting {
    });
   }
 
-  closeWindow(sec=20000): void {
+  closeWindow(sec=120000): void {
     setTimeout(() => {
-      this.win.destroy();
+      try {
+        this.win.destroy();
+      } catch (e) {
+        console.error(`${e}`);
+      }
     }, sec);
   }
 }
