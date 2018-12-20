@@ -39,7 +39,8 @@ class IPCForSetting {
   createWindow(url, userAgent = ''): void {
     this.win = new BrowserWindow({
       // nodeIntegration: 'iframe',
-      webPreferences: { webSecurity: false, devTools: false, disableBlinkFeatures: 'BlockCredentialedSubresources' },
+      // webPreferences: { webSecurity: false, devTools: false, disableBlinkFeatures: 'BlockCredentialedSubresources' },
+      webPreferences: { webSecurity: false, devTools: true, disableBlinkFeatures: 'BlockCredentialedSubresources' },
       width: 1500,
       height: 900 });
 
