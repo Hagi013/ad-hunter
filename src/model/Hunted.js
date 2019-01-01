@@ -17,6 +17,8 @@ export default class Hunted extends BaseModel {
     this.flow = arrayCheck(data.flow) ? data.flow.map(f => ActionObject.apply(f)) : [];
     this.updatedAt = notEmptyCheck(data.updatedAt) ? Number(data.updatedAt) : '';
     this.settings = SettingsObject.apply(data.settings);
+    this.useUAList = arrayCheck(data.useUAList) ?
+      data.useUAList.map(ua => UserAgentObject.apply(ua)) : [];
     this.description = notEmptyCheck(data.description) ? data.description : '';
   }
 }
@@ -37,19 +39,34 @@ export class HuntedObject extends BaseStoreModel {
       flow: '',
       updatedAt: '',
       settings: '',
+      useUAList: '',
       description: '',
     };
   }
 
   static createBrowsingTuple(hunted, idx) {
     if (notEmptyCheck(idx)) {
-      const SimulateTupleType = new Tuple(String, ActionObject.apply().constructor);
-      return new SimulateTupleType(hunted.url, ActionObject.apply(hunted.flow[idx]));
+      // const SimulateTupleType = new Tuple(String, ActionObject.apply().constructor);
+      const SimulatingSetType = new Tuple(ActionObject.apply().constructor, Array);
+      const SimulateTupleType = new Tuple(String, SimulatingSetType);
+      // return new SimulateTupleType(hunted.url, ActionObject.apply(hunted.flow[idx]));
+      const action = ActionObject.apply(hunted.flow[idx]);
+      console.log(`action.selectedUserAgents: ${JSON.stringify(action.selectedUserAgents)}`);
+      return new SimulateTupleType(hunted.url,
+        new SimulatingSetType(
+          action,
+          (arrayCheck(action.selectedUserAgents) && action.selectedUserAgents.length > 0) ?
+            action.selectedUserAgents : UserAgentObject.getAll()),
+        );
     }
     const BrowsingSetType = new Tuple(Array, Array);
     const ExecuteBrowsingTupleType = new Tuple(String, BrowsingSetType);
     return new ExecuteBrowsingTupleType(hunted.url,
-      new BrowsingSetType(HuntedObject.apply(hunted).flow, UserAgentObject.getAll()));
+      new BrowsingSetType(
+        HuntedObject.apply(hunted).flow,
+        (arrayCheck(hunted.useUAList) && hunted.useUAList.length > 0) ?
+          hunted.useUAList : UserAgentObject.getAll()),
+    );
   }
 
   static createItemForSave(hunted) {
@@ -59,6 +76,8 @@ export class HuntedObject extends BaseStoreModel {
       flow: hunted.flow.map(action => ActionObject.createItemForSave(action)),
       updatedAt: moment().format('x'),
       settings: SettingsObject.createItemForSave(hunted.settings),
+      useUAList: arrayCheck(hunted.useUAList) ?
+        hunted.useUAList.map(ua => UserAgentObject.createItemForSave(ua)) : [],
       description: hunted.description,
     };
     this.validateCheck(forSaving);

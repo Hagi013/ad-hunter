@@ -1,0 +1,407 @@
+[
+  {
+    "id": "1544451074413",
+    "url": "https://www.google.co.jp/",
+    "flow": [
+      {
+        "id": "1544451074413#1",
+        "type": "OPERATION",
+        "item": {
+          "pageXOffset": "",
+          "pageYOffset": "",
+          "x": "",
+          "y": "",
+          "pageX": "",
+          "pageY": "",
+          "eventId": "",
+          "eventClass": ""
+        },
+        "scroll": {
+          "pageXOffset": "",
+          "pageYOffset": "",
+          "x": "",
+          "y": "",
+          "pageX": "",
+          "pageY": "",
+          "eventId": "",
+          "eventClass": ""
+        },
+        "operation": {
+          "opType": "WAIT",
+          "num": 3,
+          "funcStr": ""
+        },
+        "ctr": 0
+      },
+      {
+        "id": "1544451074413#2",
+        "type": "OPERATION",
+        "item": {
+          "pageXOffset": "",
+          "pageYOffset": "",
+          "x": "",
+          "y": "",
+          "pageX": "",
+          "pageY": "",
+          "eventId": "",
+          "eventClass": ""
+        },
+        "scroll": {
+          "pageXOffset": "",
+          "pageYOffset": "",
+          "x": "",
+          "y": "",
+          "pageX": "",
+          "pageY": "",
+          "eventId": "",
+          "eventClass": ""
+        },
+        "operation": {
+          "opType": "CUSTOM",
+          "num": 0,
+          "funcStr": "document.getElementsByName('q')[0].value = 'mayado.jp 男性更年期の症状改善に、漢方は効果がある？';\nconsole.log(1111111);\n\nArray.prototype.slice.call(document.getElementsByTagName('button')).filter((button) => button['outerHTML'].indexOf('Google 検索') !== -1)[0].click();"
+        },
+        "ctr": 0
+      },
+      {
+        "id": "1544451074413#3",
+        "type": "OPERATION",
+        "item": {
+          "pageXOffset": "",
+          "pageYOffset": "",
+          "x": "",
+          "y": "",
+          "pageX": "",
+          "pageY": "",
+          "eventId": "",
+          "eventClass": ""
+        },
+        "scroll": {
+          "pageXOffset": "",
+          "pageYOffset": "",
+          "x": "",
+          "y": "",
+          "pageX": "",
+          "pageY": "",
+          "eventId": "",
+          "eventClass": ""
+        },
+        "operation": {
+          "opType": "WAIT",
+          "num": 3,
+          "funcStr": ""
+        },
+        "ctr": 0
+      },
+      {
+        "id": "1544451074413#4",
+        "type": "OPERATION",
+        "item": {
+          "pageXOffset": 0,
+          "pageYOffset": 0,
+          "x": 965.5,
+          "y": 303,
+          "pageX": 965.5,
+          "pageY": 303,
+          "eventId": "",
+          "eventClass": ""
+        },
+        "scroll": {
+          "pageXOffset": "",
+          "pageYOffset": "",
+          "x": "",
+          "y": "",
+          "pageX": 860,
+          "pageY": 279,
+          "eventId": "lga",
+          "eventClass": ""
+        },
+        "operation": {
+          "opType": "WAIT",
+          "num": 5,
+          "funcStr": ""
+        },
+        "ctr": 0
+      },
+      {
+        "id": "1544451074413#5",
+        "type": "OPERATION",
+        "item": {
+          "pageXOffset": "",
+          "pageYOffset": "",
+          "x": "",
+          "y": "",
+          "pageX": "",
+          "pageY": "",
+          "eventId": "",
+          "eventClass": ""
+        },
+        "scroll": {
+          "pageXOffset": "",
+          "pageYOffset": "",
+          "x": "",
+          "y": "",
+          "pageX": "",
+          "pageY": "",
+          "eventId": "",
+          "eventClass": ""
+        },
+        "operation": {
+          "opType": "WAIT",
+          "num": 5,
+          "funcStr": ""
+        },
+        "ctr": 0
+      },
+      {
+        "id": "1544451074413#6",
+        "type": "OPERATION",
+        "item": {
+          "pageXOffset": 0,
+          "pageYOffset": 0,
+          "x": 889,
+          "y": 293,
+          "pageX": 889,
+          "pageY": 293,
+          "eventId": "rcnt",
+          "eventClass": ""
+        },
+        "scroll": {
+          "pageXOffset": "",
+          "pageYOffset": "",
+          "x": "",
+          "y": "",
+          "pageX": "",
+          "pageY": "",
+          "eventId": "",
+          "eventClass": ""
+        },
+        "operation": {
+          "opType": "CUSTOM",
+          "num": 0,
+          "funcStr": "Array.prototype.slice.call(document.getElementsByTagName('div')).filter(div => div.innerHTML.indexOf('男性更年期の症状改善に、漢方は効果がある？') === 0)[0].click();"
+        },
+        "ctr": 0
+      },
+      {
+        "id": "1544451074413#7",
+        "type": "OPERATION",
+        "item": {
+          "pageXOffset": "",
+          "pageYOffset": "",
+          "x": "",
+          "y": "",
+          "pageX": "",
+          "pageY": "",
+          "eventId": "",
+          "eventClass": ""
+        },
+        "scroll": {
+          "pageXOffset": "",
+          "pageYOffset": "",
+          "x": "",
+          "y": "",
+          "pageX": "",
+          "pageY": "",
+          "eventId": "",
+          "eventClass": ""
+        },
+        "operation": {
+          "opType": "WAIT",
+          "num": 10,
+          "funcStr": ""
+        },
+        "ctr": 0
+      },
+      {
+        "id": "1544451074413#8",
+        "type": "SCROLL",
+        "item": {
+          "pageXOffset": "",
+          "pageYOffset": "",
+          "x": "",
+          "y": "",
+          "pageX": "",
+          "pageY": "",
+          "eventId": "",
+          "eventClass": ""
+        },
+        "scroll": {
+          "pageXOffset": "",
+          "pageYOffset": "",
+          "x": "",
+          "y": "",
+          "pageX": 404,
+          "pageY": 4275,
+          "eventId": "",
+          "eventClass": ""
+        },
+        "operation": {
+          "opType": "",
+          "num": 0,
+          "funcStr": ""
+        },
+        "ctr": 0
+      },
+      {
+        "id": "1544451074413#10",
+        "type": "OPERATION",
+        "item": {
+          "pageXOffset": "",
+          "pageYOffset": "",
+          "x": "",
+          "y": "",
+          "pageX": "",
+          "pageY": "",
+          "eventId": "",
+          "eventClass": ""
+        },
+        "scroll": {
+          "pageXOffset": "",
+          "pageYOffset": "",
+          "x": "",
+          "y": "",
+          "pageX": "",
+          "pageY": "",
+          "eventId": "",
+          "eventClass": ""
+        },
+        "operation": {
+          "opType": "WAIT",
+          "num": 20,
+          "funcStr": ""
+        },
+        "ctr": 0
+      },
+      {
+        "id": "1544451074413#11",
+        "type": "CLICK",
+        "item": {
+          "pageXOffset": 0,
+          "pageYOffset": 4456,
+          "x": 296,
+          "y": 726,
+          "pageX": 296,
+          "pageY": 5182,
+          "eventId": "",
+          "eventClass": "main-bg"
+        },
+        "scroll": {
+          "pageXOffset": "",
+          "pageYOffset": "",
+          "x": "",
+          "y": "",
+          "pageX": "",
+          "pageY": "",
+          "eventId": "",
+          "eventClass": ""
+        },
+        "operation": {
+          "opType": "WAIT",
+          "num": 0,
+          "funcStr": ""
+        },
+        "ctr": 0
+      },
+      {
+        "id": "1544451074413#12",
+        "type": "OPERATION",
+        "item": {
+          "pageXOffset": "",
+          "pageYOffset": "",
+          "x": "",
+          "y": "",
+          "pageX": "",
+          "pageY": "",
+          "eventId": "",
+          "eventClass": ""
+        },
+        "scroll": {
+          "pageXOffset": "",
+          "pageYOffset": "",
+          "x": "",
+          "y": "",
+          "pageX": "",
+          "pageY": "",
+          "eventId": "",
+          "eventClass": ""
+        },
+        "operation": {
+          "opType": "WAIT",
+          "num": 10,
+          "funcStr": ""
+        },
+        "ctr": 0
+      },
+      {
+        "id": "1544451074413#13",
+        "type": "OPERATION",
+        "item": {
+          "pageXOffset": "",
+          "pageYOffset": "",
+          "x": "",
+          "y": "",
+          "pageX": "",
+          "pageY": "",
+          "eventId": "",
+          "eventClass": ""
+        },
+        "scroll": {
+          "pageXOffset": "",
+          "pageYOffset": "",
+          "x": "",
+          "y": "",
+          "pageX": "",
+          "pageY": "",
+          "eventId": "",
+          "eventClass": ""
+        },
+        "operation": {
+          "opType": "BACK",
+          "num": 1,
+          "funcStr": ""
+        },
+        "ctr": 0
+      },
+      {
+        "id": "1544451074413#14",
+        "type": "OPERATION",
+        "item": {
+          "pageXOffset": "",
+          "pageYOffset": "",
+          "x": "",
+          "y": "",
+          "pageX": "",
+          "pageY": "",
+          "eventId": "",
+          "eventClass": ""
+        },
+        "scroll": {
+          "pageXOffset": "",
+          "pageYOffset": "",
+          "x": "",
+          "y": "",
+          "pageX": "",
+          "pageY": "",
+          "eventId": "",
+          "eventClass": ""
+        },
+        "operation": {
+          "opType": "WAIT",
+          "num": 5,
+          "funcStr": ""
+        },
+        "ctr": 0
+      }
+    ],
+    "updatedAt": 1544455673896,
+    "settings": {
+      "pv": 1,
+      "timeOut": "",
+      "interval": 20,
+      "start": 1544454000000,
+      "stop": ""
+    },
+    "description": ""
+  }
+]

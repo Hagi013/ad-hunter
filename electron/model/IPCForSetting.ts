@@ -26,22 +26,26 @@ class IPCForSetting {
     ipcMain.on(CONFIG[KEY]['FROMVUE'], (event, tuple) => {
       this.event = event;
       this.actionId = tuple._1;
-      const url = tuple._2;
-      this.createWindow(url);
+      const browsing = tuple._2;
+      const url = browsing.url;
+      const userAgent = browsing.userAgents[Math.round((browsing.userAgents.length - 1) * Math.random())].value;
+      this.createWindow(url, userAgent);
       this.readyRecieveEvent(CONFIG[KEY]['FROMRENDERER'], CONFIG[KEY]['TOVUE']);
       this.executeJS(HuntedSettingService.actionToStr(KEY));
       this.closeWindow();
     });
   }
 
-  createWindow(url): void {
+  createWindow(url, userAgent = ''): void {
     this.win = new BrowserWindow({
       // nodeIntegration: 'iframe',
-      webPreferences: {webSecurity: false},
+      // webPreferences: { webSecurity: false, devTools: false, disableBlinkFeatures: 'BlockCredentialedSubresources' },
+      webPreferences: { webSecurity: false, devTools: true, disableBlinkFeatures: 'BlockCredentialedSubresources' },
       width: 1500,
       height: 900 });
 
-    this.win.loadURL(url);
+    this.win.loadURL(url, { userAgent });
+    // this.win.loadURL(url, { userAgent: "Mozilla/5.0 (Linux; Android 5.1.1; SM-J111M Build/LMY47V) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Mobile Safari/537.36" });
 
     this.win.on('closed', () => {
       this.win = null;
@@ -62,9 +66,13 @@ class IPCForSetting {
    });
   }
 
-  closeWindow(sec=20000): void {
+  closeWindow(sec=120000): void {
     setTimeout(() => {
-      this.win.destroy();
+      try {
+        this.win.destroy();
+      } catch (e) {
+        console.error(`${e}`);
+      }
     }, sec);
   }
 }

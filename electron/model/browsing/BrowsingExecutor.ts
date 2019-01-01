@@ -13,6 +13,7 @@ type BrowsingManagedObject = {
   win: BrowserWindow;
   event: any;
   htdId: string;
+  userAgent: string;
 }
 
 export default class BrowsingExecutor {
@@ -20,6 +21,11 @@ export default class BrowsingExecutor {
   static executeBrowsing(bmo: BrowsingManagedObject, flow): Promise<any> {
 
     return flow.reduce((prev, action) => prev.then(() => {
+      // User AgentがこのActionで使用する予定のUser Agentと異なる場合はこの処理は飛ばす
+      if (!action.selectedUserAgents.map(ua => ua.value).includes(bmo.userAgent)) {
+        console.log(`Skip!! Because of UA. This window's ua is ${bmo.userAgent}. This Action ua is ${JSON.stringify(action.selectedUserAgents)}`);
+        return Promise.resolve();
+      }
       // Clickの場合は確率調整
       if (action.type === 'CLICK' && this.abandonClick(action.ctr)) return;
       return this.executeAction(bmo, action);

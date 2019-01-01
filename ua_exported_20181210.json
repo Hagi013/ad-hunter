@@ -1,0 +1,322 @@
+[
+  {
+    "id": "1523198612615",
+    "label": "Windows 10 32bit Version 1607 Build 14393",
+    "value": "Mozilla/5.0 (Windows NT 10.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.79 Safari/537.36 Edge/14.14393"
+  },
+  {
+    "id": "1523198631722",
+    "label": "Windows 10 32bit Version 1511 Build 10586",
+    "value": "Mozilla/5.0 (Windows NT 10.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2486.0 Safari/537.36 Edge/13.10586"
+  },
+  {
+    "id": "1523198684147",
+    "label": "Google Chrome Mac Intel Mac OS X 10_12_2",
+    "value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.95 Safari/537.36"
+  },
+  {
+    "id": "1523198712551",
+    "label": "Safari Mac Intel Mac OS X 10_12_2",
+    "value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_2) AppleWebKit/602.3.12 (KHTML, like Gecko) Version/10.0.2 Safari/602.3.12"
+  },
+  {
+    "id": "1523198730194",
+    "label": "Vivaldi Mac Intel Mac OS X 10_12_2",
+    "value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.98 Safari/537.36 Vivaldi/1.6.689.40"
+  },
+  {
+    "id": "1544446616611",
+    "label": "Safari 11\tWeb Browser\tiOS\tCommon",
+    "value": "Mozilla/5.0 (iPhone; CPU iPhone OS 11_2_5 like Mac OS X) AppleWebKit/604.5.6 (KHTML, like Gecko) Version/11.0 Mobile/15D60 Safari/604.1"
+  },
+  {
+    "id": "1544446643647",
+    "label": "Chrome 70\tWeb Browser\tAndroid\tCommon",
+    "value": "Mozilla/5.0 (Linux; Android 7.0; SM-G570M) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.80 Mobile Safari/537.36"
+  },
+  {
+    "id": "1544446680752",
+    "label": "Webkit based browser\tWeb Browser\tiOS\tVery common",
+    "value": "Mozilla/5.0 (iPhone; CPU iPhone OS 12_0_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/16A404"
+  },
+  {
+    "id": "1544446700446",
+    "label": "Safari 11\tWeb Browser\tiOS\tVery common",
+    "value": "Mozilla/5.0 (iPhone; CPU iPhone OS 11_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Mobile/15E148 Safari/604.1"
+  },
+  {
+    "id": "1544446716430",
+    "label": "Safari 12\tWeb Browser\tiOS\tVery common",
+    "value": "Mozilla/5.0 (iPhone; CPU iPhone OS 12_0_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Mobile/15E148 Safari/604.1"
+  },
+  {
+    "id": "1544446732560",
+    "label": "Chrome 63\tWeb Browser\tAndroid\tVery common",
+    "value": "Mozilla/5.0 (Linux; Android 6.0.1; SM-G532G Build/MMB29T) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.83 Mobile Safari/537.36"
+  },
+  {
+    "id": "1544446753518",
+    "label": "Safari 12\tWeb Browser\tiOS\tVery common",
+    "value": "Mozilla/5.0 (iPhone; CPU iPhone OS 12_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Mobile/15E148 Safari/604.1"
+  },
+  {
+    "id": "1544446777725",
+    "label": "Chrome 69\tWeb Browser\tAndroid\tVery common",
+    "value": "Mozilla/5.0 (Linux; Android 7.0; SM-G570M Build/NRD90M) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Mobile Safari/537.36"
+  },
+  {
+    "id": "1544446790409",
+    "label": "Samsung Browser 6.2\tWeb Browser\tAndroid\tVery common",
+    "value": "Mozilla/5.0 (Linux; Android 7.0; SAMSUNG SM-N920C Build/NRD90M) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/6.2 Chrome/56.0.2924.87 Mobile Safari/537.36"
+  },
+  {
+    "id": "1544446805403",
+    "label": "Samsung Browser 7.4\tWeb Browser\tAndroid\tVery common",
+    "value": "Mozilla/5.0 (Linux; Android 6.0.1; SAMSUNG SM-G532M Build/MMB29T) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/7.4 Chrome/59.0.3071.125 Mobile Safari/537.36"
+  },
+  {
+    "id": "1544446821965",
+    "label": "Chrome 70\tWeb Browser\tAndroid\tVery common",
+    "value": "Mozilla/5.0 (Linux; Android 7.0; SM-G610M) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.80 Mobile Safari/537.36"
+  },
+  {
+    "id": "1544446832888",
+    "label": "Samsung Browser 7.4\tWeb Browser\tAndroid\tVery common",
+    "value": "Mozilla/5.0 (Linux; Android 7.0; SAMSUNG SM-G570M Build/NRD90M) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/7.4 Chrome/59.0.3071.125 Mobile Safari/537.36"
+  },
+  {
+    "id": "1544446936412",
+    "label": "IE11\tWindows\tComputer\tVery common",
+    "value": "Mozilla/5.0 (Windows NT 6.1; Win64; x64; Trident/7.0; rv:11.0) like Gecko"
+  },
+  {
+    "id": "1544446961490",
+    "label": "IE 10\tWindows\tComputer\tVery common",
+    "value": "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; WOW64; Trident/6.0)"
+  },
+  {
+    "id": "1544446975870",
+    "label": "IE 11\tWindows\tComputer\tVery common",
+    "value": "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko"
+  },
+  {
+    "id": "1544446990972",
+    "label": "IE 11\tWindows\tComputer\tVery common",
+    "value": "Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko"
+  },
+  {
+    "id": "1544447034328",
+    "label": "Chrome 30\tWeb Browser\tAndroid\tVery common",
+    "value": "Mozilla/5.0 (Linux; Android 4.4.2; XMP-6250 Build/HAWK) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/30.0.0.0 Safari/537.36 ADAPI/2.0 (UUID:9e7df0ed-2a5c-4a19-bec7-2cc54800f99d) RK3188-ADAPI/1.2.84.533 (MODEL:XMP-6250)"
+  },
+  {
+    "id": "1544447049411",
+    "label": "Chrome 58\tWeb Browser\tAndroid\tVery common",
+    "value": "Mozilla/5.0 (Linux; Android 7.1; Mi A1 Build/N2G47H) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.83 Mobile Safari/537.36"
+  },
+  {
+    "id": "1544447075725",
+    "label": "Safari 9\tiPad\tiOS\tVery common",
+    "value": "Mozilla/5.0 (iPad; CPU OS 9_3_5 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13G36 Safari/601.1"
+  },
+  {
+    "id": "1544447084871",
+    "label": "Safari 9\tiPad\tiOS\tVery common",
+    "value": "Mozilla/5.0 (iPad; CPU OS 9_3_2 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13F69 Safari/601.1"
+  },
+  {
+    "id": "1544447096705",
+    "label": "Chrome 53\tVivo\tAndroid\tVery common",
+    "value": "Mozilla/5.0 (Linux; Android 6.0; vivo 1713 Build/MRA58K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.124 Mobile Safari/537.36"
+  },
+  {
+    "id": "1544447107243",
+    "label": "Safari 10\tiPad\tiOS\tVery common",
+    "value": "Mozilla/5.0 (iPad; CPU OS 10_2_1 like Mac OS X) AppleWebKit/602.4.6 (KHTML, like Gecko) Version/10.0 Mobile/14D27 Safari/602.1"
+  },
+  {
+    "id": "1544447158303",
+    "label": "Safari 12\tWeb Browser\tiOS\tVery common",
+    "value": "Mozilla/5.0 (iPhone; CPU iPhone OS 12_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Mobile/15E148 Safari/604.1"
+  },
+  {
+    "id": "1544447169748",
+    "label": "Safari 11\tWeb Browser\tiOS\tVery common",
+    "value": "Mozilla/5.0 (iPhone; CPU iPhone OS 11_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Mobile/15E148 Safari/604.1"
+  },
+  {
+    "id": "1544447191692",
+    "label": "Chrome 70\tWeb Browser\tAndroid\tCommon",
+    "value": "Mozilla/5.0 (Linux; Android 7.0; SM-G570M) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.80 Mobile Safari/537.36"
+  },
+  {
+    "id": "1544447205840",
+    "label": "Chrome 70\tWeb Browser\tAndroid\tVery common",
+    "value": "Mozilla/5.0 (Linux; Android 7.0; SM-G610M) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.80 Mobile Safari/537.36"
+  },
+  {
+    "id": "1544447217748",
+    "label": "Safari 10\tWeb Browser\tiOS\tVery common",
+    "value": "Mozilla/5.0 (iPhone; CPU iPhone OS 10_3_2 like Mac OS X) AppleWebKit/603.2.4 (KHTML, like Gecko) Version/10.0 Mobile/14F89 Safari/602.1"
+  },
+  {
+    "id": "1544447230840",
+    "label": "Samsung Browser 7.4\tWeb Browser\tAndroid\tVery common",
+    "value": "Mozilla/5.0 (Linux; Android 7.0; SAMSUNG SM-G610M Build/NRD90M) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/7.4 Chrome/59.0.3071.125 Mobile Safari/537.36"
+  },
+  {
+    "id": "1544447259877",
+    "label": "Safari 11\tiPad\tiOS\tCommon",
+    "value": "Mozilla/5.0 (iPad; CPU OS 11_2_2 like Mac OS X) AppleWebKit/604.4.7 (KHTML, like Gecko) Version/11.0 Mobile/15C202 Safari/604.1"
+  },
+  {
+    "id": "1544447270569",
+    "label": "Safari 7\tiPad\tiOS\tCommon",
+    "value": "Mozilla/5.0 (iPad; CPU OS 7_0 like Mac OS X) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11A465 Safari/9537.53"
+  },
+  {
+    "id": "1544447281690",
+    "label": "Safari 11\tiPad\tiOS\tCommon",
+    "value": "Mozilla/5.0 (iPad; CPU OS 11_1_2 like Mac OS X) AppleWebKit/604.3.5 (KHTML, like Gecko) Version/11.0 Mobile/15B202 Safari/604.1"
+  },
+  {
+    "id": "1544447295874",
+    "label": "Webkit based browser\tiPad\tiOS\tCommon",
+    "value": "Mozilla/5.0 (iPad; CPU OS 11_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15G77"
+  },
+  {
+    "id": "1544447306373",
+    "label": "Chrome 28\tGalaxy Tab 4 7.0\"\tAndroid\tCommon",
+    "value": "Mozilla/5.0 (Linux; Android 4.4.2; en-us; SAMSUNG SM-T230NU Build/KOT49H) AppleWebKit/537.36 (KHTML, like Gecko) Version/1.5 Chrome/28.0.1500.94 Safari/537.36"
+  },
+  {
+    "id": "1544447317874",
+    "label": "Chrome 63\tiPad\tiOS\tCommon",
+    "value": "Mozilla/5.0 (iPad; CPU OS 9_3_5 like Mac OS X) AppleWebKit/601.1 (KHTML, like Gecko) CriOS/63.0.3239.73 Mobile/13G36 Safari/601.1.46"
+  },
+  {
+    "id": "1544447372875",
+    "label": "Safari 11\tWeb Browser\tiOS\tCommon",
+    "value": "Mozilla/5.0 (iPhone; CPU iPhone OS 11_2_2 like Mac OS X) AppleWebKit/604.4.7 (KHTML, like Gecko) Version/11.0 Mobile/15C202 Safari/604.1"
+  },
+  {
+    "id": "1544447392345",
+    "label": "Safari 11\tWeb Browser\tiOS\tCommon",
+    "value": "Mozilla/5.0 (iPhone; CPU iPhone OS 11_1_2 like Mac OS X) AppleWebKit/604.3.5 (KHTML, like Gecko) Version/11.0 Mobile/15B202 Safari/604.1"
+  },
+  {
+    "id": "1544447405491",
+    "label": "Chrome 69\tWeb Browser\tAndroid\tCommon",
+    "value": "Mozilla/5.0 (Linux; Android 5.1.1; SM-J111M Build/LMY47V) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Mobile Safari/537.36"
+  },
+  {
+    "id": "1544447414838",
+    "label": "Chrome 68\tWeb Browser\tAndroid\tCommon",
+    "value": "Mozilla/5.0 (Linux; Android 6.0.1; SM-G532M Build/MMB29T) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.91 Mobile Safari/537.36"
+  },
+  {
+    "id": "1544447424548",
+    "label": "Safari 9\tWeb Browser\tiOS\tCommon",
+    "value": "Mozilla/5.0 (iPhone; CPU iPhone OS 9_2 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13C75 Safari/601.1"
+  },
+  {
+    "id": "1544447437249",
+    "label": "Safari 9\tWeb Browser\tiOS\tCommon",
+    "value": "Mozilla/5.0 (iPhone; CPU iPhone OS 9_3_3 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13G34 Safari/601.1"
+  },
+  {
+    "id": "1544447449424",
+    "label": "Safari 10\tWeb Browser\tiOS\tCommon",
+    "value": "Mozilla/5.0 (iPhone; CPU iPhone OS 10_3_1 like Mac OS X) AppleWebKit/603.1.30 (KHTML, like Gecko) Version/10.0 Mobile/14E304 Safari/602.1"
+  },
+  {
+    "id": "1544447464640",
+    "label": "Internet Explorer Mobile 9\tWeb Browser\tWindows Phone\tCommon",
+    "value": "Mozilla/5.0 (compatible; MSIE 9.0; Windows Phone OS 7.5; Trident/5.0; IEMobile/9.0; NOKIA; Lumia 710)"
+  },
+  {
+    "id": "1544447477312",
+    "label": "Safari 8\tWeb Browser\tiOS\tCommon",
+    "value": "Mozilla/5.0 (iPhone; CPU iPhone OS 8_2 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) Version/8.0 Mobile/12D508 Safari/600.1.4"
+  },
+  {
+    "id": "1544447488574",
+    "label": "Chrome 69\tWeb Browser\tAndroid\tCommon",
+    "value": "Mozilla/5.0 (Linux; Android 7.0; SM-G570M Build/NRD90M; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/69.0.3497.100 Mobile Safari/537.36 [FB_IAB/FB4A;FBAV/192.0.0.34.85;]"
+  },
+  {
+    "id": "1544447498063",
+    "label": "Chrome 69\tWeb Browser\tiOS\tCommon",
+    "value": "Mozilla/5.0 (iPhone; CPU iPhone OS 12_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/69.0.3497.105 Mobile/15E148 Safari/605.1"
+  },
+  {
+    "id": "1544447515410",
+    "label": "Safari 9\tWeb Browser\tiOS\tCommon",
+    "value": "Mozilla/5.0 (iPhone; CPU iPhone OS 9_3_4 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13G35 Safari/601.1"
+  },
+  {
+    "id": "1544447527142",
+    "label": "Chrome 70\tWeb Browser\tAndroid\tCommon",
+    "value": "Mozilla/5.0 (Linux; Android 6.0.1; SM-J700M) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.80 Mobile Safari/537.36"
+  },
+  {
+    "id": "1544447536610",
+    "label": "Chrome 69\tWeb Browser\tAndroid\tCommon",
+    "value": "Mozilla/5.0 (Linux; Android 7.0; SM-G610M Build/NRD90M; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/69.0.3497.100 Mobile Safari/537.36"
+  },
+  {
+    "id": "1544447546254",
+    "label": "Chrome 70\tWeb Browser\tAndroid\tCommon",
+    "value": "Mozilla/5.0 (Linux; Android 6.0.1; SM-G532M) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.80 Mobile Safari/537.36"
+  },
+  {
+    "id": "1544447558953",
+    "label": "Safari 11\tWeb Browser\tiOS\tCommon",
+    "value": "Mozilla/5.0 (iPhone; CPU iPhone OS 11_0_2 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A421 Safari/604.1"
+  },
+  {
+    "id": "1544447569520",
+    "label": "Safari 11\tWeb Browser\tiOS\tCommon",
+    "value": "Mozilla/5.0 (iPhone; CPU iPhone OS 11_0_1 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A402 Safari/604.1"
+  },
+  {
+    "id": "1544447579411",
+    "label": "Chrome 69\tWeb Browser\tAndroid\tCommon",
+    "value": "Mozilla/5.0 (Linux; Android 8.0.0; SM-G950F Build/R16NW) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Mobile Safari/537.36"
+  },
+  {
+    "id": "1544447589042",
+    "label": "Safari 8\tWeb Browser\tiOS\tCommon",
+    "value": "Mozilla/5.0 (iPhone; CPU iPhone OS 8_4_1 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) Version/8.0 Mobile/12H321 Safari/600.1.4"
+  },
+  {
+    "id": "1544447598608",
+    "label": "Chrome 69\tWeb Browser\tAndroid\tCommon",
+    "value": "Mozilla/5.0 (Linux; Android 6.0.1; SM-J106B Build/MMB29Q) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Mobile Safari/537.36"
+  },
+  {
+    "id": "1544447608053",
+    "label": "Chrome 70\tWeb Browser\tiOS\tCommon",
+    "value": "Mozilla/5.0 (iPhone; CPU iPhone OS 12_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/70.0.3538.75 Mobile/15E148 Safari/605.1"
+  },
+  {
+    "id": "1544447618164",
+    "label": "Safari 10\tWeb Browser\tiOS\tCommon",
+    "value": "Mozilla/5.0 (iPhone; CPU iPhone OS 10_0_1 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) Version/10.0 Mobile/14A403 Safari/602.1"
+  },
+  {
+    "id": "1544447627886",
+    "label": "Chrome 70\tWeb Browser\tAndroid\tCommon",
+    "value": "Mozilla/5.0 (Linux; Android 7.0; SM-J710MN) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.80 Mobile Safari/537.36"
+  },
+  {
+    "id": "1544447640810",
+    "label": "Webkit based browser\tWeb Browser\tiOS\tCommon",
+    "value": "Mozilla/5.0 (iPhone; CPU iPhone OS 11_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15F79"
+  },
+  {
+    "id": "1544447664319",
+    "label": "Safari 9\tWeb Browser\tiOS\tCommon",
+    "value": "Mozilla/5.0 (iPhone; CPU iPhone OS 9_0_2 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13A452 Safari/601.1"
+  }
+]
